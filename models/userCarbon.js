@@ -13,17 +13,25 @@ userCarbon.init({
     },
     make: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     model: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     year: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     mpYear: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    },
+    state: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    totalCarbon: {
         type: DataTypes.INTEGER,
         allowNull: false
     },

@@ -1,2 +1,2 @@
-DROP DATABASE IF EXISTS soundstub;
-CREATE DATABASE soundstub;
+DROP DATABASE IF EXISTS carbonWatchers;
+CREATE DATABASE carbonWatchers;
