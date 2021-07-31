@@ -2,26 +2,26 @@ const path = require('path');
 const express = require('express');
 const apiRoutes = require('./controllers/api');
 const sequelize = require('./db/connection');
-// const session = require("express-session");
+const session = require("express-session");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// start session
-// const SequelizeStore = require('connect-session-sequelize')(session.Store);
-// const sess = {
-//   secret: 'Super secret',
-//   cookie: {},
-//   resave: false,
-//   saveUninitialized: true,
-//   store: new SequelizeStore({
-//     db: sequelize
-//   })
-// };
+//start session
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const sess = {
+  secret: 'Super secret',
+  cookie: {},
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: sequelize
+  })
+};
 
 
 
-// app.use(session(sess));
+app.use(session(sess));
 
 // app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 // app.set('view engine', 'handlebars');
