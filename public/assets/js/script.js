@@ -224,7 +224,7 @@ function postFlightData() {
   var distance = dataTotal.data.attributes.distance_value;
   var carbonPerPerson = dataPerPerson.data.attributes.carbon_lb;
 
-  $("#results").html("<p class='py-2 px-2 text-center'>Your total cabon emitions for your flight are <span class='main-color fw-bold'>" + pounds + " Pounds or " + mt + " Metric Tons " + "</span>of CO2 put in to the atmosphere with a total distance traveled of: <span class='main-color fw-bold'>" + distance + " Miles" +"</span>. The carbon emissions per person are:  <span class='main-color fw-bold'>" + carbonPerPerson + " Pounds</span> of CO2 released per person in to the atmosphere durring the flight. </p>" );
+  $("#results").html("<p class='py-2 px-2 text-center'>Your total carbon emitions for your flight are <span class='main-color fw-bold'>" + pounds + " Pounds or " + mt + " Metric Tons " + "</span>of CO2 put in to the atmosphere with a total distance traveled of: <span class='main-color fw-bold'>" + distance + " Miles" +"</span>. The carbon emissions per person are:  <span class='main-color fw-bold'>" + carbonPerPerson + " Pounds</span> of CO2 released per person in to the atmosphere durring the flight. </p>" );
 }  
 
 function flightEstimateRequest(passengers, legs) {
@@ -350,12 +350,12 @@ function shippingEstimateRequest(weight, weightUnit, distance, distanceUnit, met
 function initalizeGlobalEmissions() {
   var today = moment();
   var startOfTheYear = moment("2021-01-01 00:00:00")
-  var diffrence = Math.round(moment.duration(today.diff(startOfTheYear)).as("seconds"));
-  currentAviationEmissions = 29.90233 * diffrence;
-  currentVehicleEmissions = 190.25875 * diffrence;
-  currentShippingEmissions = 26.88990 * diffrence;
-  currentEnergyEmissions = 1049.59411 * diffrence;
-  currentGlobalEmissions = 1296.64510 * diffrence;
+  var difference = Math.round(moment.duration(today.diff(startOfTheYear)).as("seconds"));
+  currentAviationEmissions = 29.90233 * difference;
+  currentVehicleEmissions = 190.25875 * difference;
+  currentShippingEmissions = 26.88990 * difference;
+  currentEnergyEmissions = 1049.59411 * difference;
+  currentGlobalEmissions = 1296.64510 * difference;
   currentEmissionsTimer = setInterval(globalEmissions, 10);
 }
 
