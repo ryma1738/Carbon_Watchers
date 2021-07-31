@@ -64,124 +64,6 @@ function displayNoneAll() {
  clearInterval(currentEmissionsTimer);
 }
 
-function getVehicleMake(event) {
-  // gets user data from car form and finds the make, then if it can find it calls the getVehicleModel function.
-  event.preventDefault();
-  $("#results").html("<p class='px-2 mt-2 text-center' fw-bold>Loading your Results <div class='loader pb-2 my-auto mx-auto'</div></p>");
-  var userMake = $("#make").val();
-  userMake = userMake.trim().toLowerCase().split(" ");
-    for (var i = 0; i < userMake.length; i++) {
-        userMake[i] = userMake[i].charAt(0).toUpperCase() + userMake[i].substring(1);
-    }
-    userMake = userMake.join(" ");
-    var testUnit = $("#distance-unit").val()
-    if (!testUnit) {
-      $("#results").html("<p class='text-center px-2 py-3'>You must select a distance unit!</p>");
-      return;
-    }
-
-  $.ajax({
-    url: 'https://www.carboninterface.com/api/v1/vehicle_makes',
-    method: "GET",
-    contentType: "application/json",
-    beforeSend: function(xhr) {
-         xhr.setRequestHeader("Authorization", "Bearer HZOkJvglLARzHsXWm755Q")
-    }, success: function(data){
-        console.log(data);
-        var check = false;
-        for (var i = 0; i < data.length; i++) {
-          if (userMake === data[i].data.attributes.name) {
-            var make = data[i].data.id;
-            check = true;
-            break;
-          }
-        }
-        if (!check) {
-          $("#results").html("<p class='text-center px-2 py-3'>Vehicle make not found. Please enter a valid vehicle make!</p>");
-        }
-        else {
-          getVehicleModel(userMake, make);
-        }
-    }, error: function() {
-      alert("Their was a network error while trying to get your request. Please try again.");
-      $("#results").html(" ");
-    }
-  })
-}
-
-function getVehicleModel(make, makeID) {
-//Gets the remaining info from the car form to find the model id to get the CO2 emeition information.
-  var userModel = $("#model").val();
-  userModel = userModel.trim().toLowerCase().split(" ");
-    for (var i = 0; i < userModel.length; i++) {
-        userModel[i] = userModel[i].charAt(0).toUpperCase() + userModel[i].substring(1);
-    }
-    userModel = userModel.join(" ");
-
-    var userYear = $("#year").val();
-    userYear = userYear.trim();
-    userYear = parseInt(userYear);
-
-  $.ajax({
-    url: 'https://www.carboninterface.com/api/v1/vehicle_makes/' + makeID + "/vehicle_models",
-    method: "GET",
-    contentType: "application/json",
-    beforeSend: function(xhr) {
-         xhr.setRequestHeader("Authorization", "Bearer HZOkJvglLARzHsXWm755Q")
-    }, success: function(data){
-        var check = false;
-        for (var i = 0; i < data.length; i++) {
-          if (userModel === data[i].data.attributes.name && userYear === data[i].data.attributes.year) {
-            var car = data[i].data.id;
-            check = true;
-            break;
-          }
-        }
-        if (!check) {
-          $("#results").html("<p class='text-center px-2 py-3'>Vehicle model and/or year not found. Please enter a valid vehicle model and year!</p>");
-        }
-        else {
-          vehicleEstimateRequest(car, make, userModel, userYear);
-        }
-    }, error: function() {
-      alert("Their was a network error while trying to get your request. Please try again.");
-      $("#results").html(" ");
-    }
-  })
-}
-
-function vehicleEstimateRequest(modelID, make, model, year) {
-  //Posts the request to the API and gets the carbon emitions
-  var distanceUnit = $("#distance-unit").val();
-  var distanceValue = $("#distance-value").val();
-  distanceValue = parseInt(distanceValue.trim());
-
-  fetch("https://www.carboninterface.com/api/v1/estimates", {
-    method: "post",
-    headers: {
-      'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      "type": "vehicle",
-      "distance_unit": distanceUnit,
-      "distance_value": distanceValue,
-      "vehicle_model_id": modelID
-    }),
-  }).then((response) => response.json())
-  .then((data) => {
-    if (distanceUnit === "mi") {
-      var unit = "Miles";
-    }
-    else if(distanceUnit === "km") {
-      var unit = "Kilometers";
-    }
-    var carbonEmitions = data.data.attributes.carbon_lb;
-    $("#results")
-    .html("<p class='py-2 px-2 text-center'>Your total cabon emitions for your <span class='main-color fw-bold'>" + make + " " + model + " " + year + "</span> after driving <span class='main-color fw-bold'>" + distanceValue + " " + unit + "</span> would be: <span class='main-color fw-bold'>" + carbonEmitions + " Pounds</span> of CO2 released in to the atmosphere. </p>" );
-  });
-}
-
 function flightFormSubmit(event) {
   event.preventDefault();
   flightCount = 0;
@@ -228,7 +110,7 @@ function postFlightData() {
 }  
 
 function flightEstimateRequest(passengers, legs) {
-  // average flights each day: 285,0000
+  // average flights each day: 285,000
   fetch("https://www.carboninterface.com/api/v1/estimates", {
     method: "POST",
     headers: {

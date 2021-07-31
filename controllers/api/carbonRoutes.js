@@ -2,7 +2,6 @@ const router = require('express').Router();
 const { getVehicleMake, getVehicleModel, vehicleEstimateRequest } = require('../../util/vehicles');
 
 router.get('/vehicle', async function (req, res) {
-    console.log(req.query)
    let makeId = await getVehicleMake(req.query.make.toLowerCase());
     if (!makeId) {
         res.json({message: "Vehicle make not found. Please enter a valid vehicle make!"})
@@ -15,6 +14,18 @@ router.get('/vehicle', async function (req, res) {
             res.json(carbonData);
         }
     }
+});
+
+router.get('/flight', async function (req, res) {
+    
+});
+
+router.get('/shipping', async function (req, res) {
+
+});
+
+router.get('/electricity', async function (req, res) {
+
 });
 
 module.exports = router;

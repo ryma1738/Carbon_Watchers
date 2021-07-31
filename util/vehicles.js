@@ -1,8 +1,6 @@
 const axios = require('axios');
 
-
-async function getVehicleMake(make, model, year, distanceValue, distanceUnit) {
-
+async function getVehicleMake(make) {
     let { data } = await axios.get('https://www.carboninterface.com/api/v1/vehicle_makes', {
         headers: {
             'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
