@@ -30,6 +30,14 @@ User.init({
         validate: {
             len: [5]
         }
+    },
+    carbon_id :{
+        type: DataTypes.INTEGER,
+        allowNull: true.password,
+        references: {
+            model: 'userCarbon',
+            key: 'id'
+        }
     }
 },
 {
