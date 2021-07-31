@@ -2,7 +2,7 @@ const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../db/connection');
 
 
-class userCarbon extends Model { }
+class userCarbon extends Model {}
 
 userCarbon.init({
     id: {
@@ -42,13 +42,15 @@ userCarbon.init({
             key: 'id'
         }
     
+    },
 },
-    
+    {
         sequelize,
         freezeTableName: true,
         underscored: true,
         modelName: 'userCarbon'
-    }
-);
+    
+        
+});
 
 module.exports = userCarbon;
