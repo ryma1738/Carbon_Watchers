@@ -2,15 +2,16 @@ const router = require('express').Router();
 const {User} =require('../../models');
 
 router.post('/signup', (req, res) => {
+  console.log(req.body);
     User.create({
-      username: req.body.userName,
+      username: req.body.username,
       email: req.body.email,
       password: req.body.password
     })
       .then(dbUserData => {
         req.session.save(() => {
           req.session.user_id = dbUserData.id;
-          req.session.username = dbUserData.userName;
+          req.session.username = dbUserData.username;
           req.session.loggedIn = true;
     
           res.json(dbUserData);
@@ -23,6 +24,7 @@ router.post('/signup', (req, res) => {
   });
 
   router.post('/login', (req, res) => {
+  console.log(req.body);
     User.findOne({
       where: {
         email: req.body.email
@@ -70,9 +72,7 @@ router.post('/signup', (req, res) => {
     User.update(req.body, {
       individualHooks: true,
       where: {
-        id: req.params.id,
-        email: req.params.email,
-        password: req.params.password
+        id: req.params.id
       }
     })
       .then(dbUserData => {

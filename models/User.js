@@ -2,7 +2,11 @@ const {DataTypes, Model, STRING} = require('sequelize');
 const sequelize = require('../db/connection');
 const bcrypt = require('bcrypt');
 
-class User extends Model {}
+class User extends Model {
+    checkPassword(loginPw) {
+        return bcrypt.compareSync(loginPw, this.password);
+      }
+}
 
 User.init({
     id: {
@@ -11,7 +15,7 @@ User.init({
         autoIncrement: true,
         allowNull: false
     },
-    userName: {
+    username: {
         type: DataTypes.STRING(30),
         allowNull: false,
         unique: true,
@@ -25,20 +29,20 @@ User.init({
         }
     },
     password: {
-        type: DataTypes.STRING(25),
-        allowNull: false,
+        type: DataTypes.STRING(),
+        allowNull: true,
         validate: {
             len: [5]
         }
     },
-    carbon_id :{
-        type: DataTypes.INTEGER,
-        allowNull: true.password,
-        references: {
-            model: 'userCarbon',
-            key: 'id'
-        }
-    }
+    // carbon_id :{
+    //     type: DataTypes.INTEGER,
+    //     allowNull: true.password,
+    //     references: {
+    //         model: 'userCarbon',
+    //         key: 'id'
+    //     }
+    
 },
 {
     hooks: {

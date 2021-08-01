@@ -5,9 +5,9 @@ User.hasMany(userCarbon, {
     foreignKey: 'user_id'
   });
 
-userCarbon.belongsTo(User, {
-  foreignKey: 'carbon_id'
-});
+// userCarbon.belongsTo(User, {
+//   foreignKey: 'carbon_id'
+// });
 
 
 module.exports = {User, userCarbon};
