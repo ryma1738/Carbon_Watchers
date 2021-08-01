@@ -48,9 +48,7 @@ userCarbon.init({
         sequelize,
         freezeTableName: true,
         underscored: true,
-        modelName: 'userCarbon'
-    
-        
+        modelName: 'userCarbon'   
 });
 
 module.exports = userCarbon;

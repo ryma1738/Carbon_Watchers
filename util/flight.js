@@ -1,7 +1,7 @@
 const axios = require('axios');
 
-async function flightEstimateRequest() {
-    let flight = await axios({
+async function flightEstimateRequest(legs, passCount) {
+    const{ data } = await axios({
         url: "https://www.carboninterface.com/api/v1/estimates",
         method: "post",
         headers: {
@@ -9,14 +9,13 @@ async function flightEstimateRequest() {
           'content-type': 'application/json'
         },
         data: {
-          "type": "shipping",
-          "weight_value": weight,
-          "weight_unit": weightUnit,
-          "distance_value": distance,
-          "distance_unit": distanceUnit,
-          "transport_method": method
+          type: "flight",
+          passengers: passCount,
+          distance_unit: "mi",
+          legs: legs
         }
     });
+    return data.data.attributes;
 };
 
 module.exports = {

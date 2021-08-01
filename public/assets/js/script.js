@@ -142,27 +142,6 @@ function flightEstimateRequest(passengers, legs) {
   });
 }
 
-// function electricityEstimateRequest() {
-//   //fetches electricity estimates from the api based on user data.
-//   fetch("https://www.carboninterface.com/api/v1/estimates", {
-//     method: "POST",
-//     headers: {
-//       'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
-//       'content-type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       "type": "electricity",
-//       "electricity_unit": "kwh",
-//       "electricity_value": 100,
-//       "country": "us",
-//       "state": "ut",
-//     }),
-//   }).then((response) => response.json())
-//   .then((data) => {
-//     console.log(data);
-//   });
-// }
-
 function shippingFormSubmit(event) {
   event.preventDefault();
   $("#results-shipping").html("<p class='px-2 mt-2 text-center'>Loading your Results <div class='loader pb-2 my-auto mx-auto'</div></p>");
