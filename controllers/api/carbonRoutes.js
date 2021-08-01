@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { getVehicleMake, getVehicleModel, vehicleEstimateRequest } = require('../../util/vehicles');
 const { flightEstimateRequest } = require('../../util/flight');
 const { shippingEstimateRequest } = require('../../util/shipping');
+const { electricityEstimateRequest } = require('../../util/electricity');
 
 router.get('/vehicle', async function (req, res) {
     // queries: ?make=toyota&model=86&year=2017&dValue=100&dUnit=mi
@@ -44,7 +45,14 @@ router.get('/shipping', async function (req, res) {
 });
 
 router.post('/electricity', async function (req, res) {
+    // body = [{"ut": 5}, {"ca": 2}]
 
+    let estimate = await electricityEstimateRequest(req.body);
+    if (estimate.error) {
+        res.json({message: estimate.error});
+    } else {
+        res.json({lbs: estimate.totalCarbon.lbs, mt: estimate.totalCarbon.mt})
+    }
 });
 
 module.exports = router;
