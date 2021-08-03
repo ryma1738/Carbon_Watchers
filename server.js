@@ -43,7 +43,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 // turn on routes
 app.use('/api', apiRoutes);
 
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
   res.render("index");
 });
 
