@@ -1,0 +1,311 @@
+<section class="container-fluid">
+    <div class="row">
+        <div class="col-2 bg-dark m-0 p-0"></div>
+        <div class="col-8 border border-dark border-2 bg-secondary"> <!-- main div to hold information  -->
+            <div class="p-2">
+                <div class="p-2"> <!-- Update username -->
+                    <form class="border border-light border-1 rounded-1 row bg-dark">
+                        <div class="pb-3 col-10">
+                            <label for="updateUsername" class="form-label text-white">Update Username</label>
+                            <input type="text" class="form-control form-control-lg" id="updateUsername" placeholder="New Username">
+                        </div>
+                        <div class="px-1 col-2 my-auto">
+                            <button type="submit" class="btn btn-outline-light btn-lg">Update</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="p-2"> <!-- Update Email -->
+                    <form class="border border-light border-1 rounded-1 row bg-dark">
+                        <div class="pb-3 col-10">
+                            <label for="updateEmail" class="form-label text-white">Update Email</label>
+                            <input type="email" class="form-control form-control-lg" id="updateEmail" placeholder="New Email">
+                        </div>
+                        <div class="px-1 col-2 my-auto">
+                            <button type="submit" class="btn btn-outline-light btn-lg">Update</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="p-2"> <!-- Update Password "must have 2 that match" -->
+                    <form class="border border-light border-1 rounded-1 row bg-dark">
+                        <div class="pb-3 col-10">
+                            <label for="updatePassword" class="form-label text-white">Update Password</label>
+                            <input type="text" class="form-control form-control-lg" id="updatePassword" placeholder="New Password">
+                            <label for="confirmPassword" class="form-label text-white">Confirm Password</label>
+                            <input type="text" class="form-control form-control-lg" id="confirmPassword" placeholder="Confirm Password">
+                        </div>
+                        <div class="px-1 col-2 my-auto">
+                            <button type="submit" class="btn btn-outline-light btn-lg">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="mx-auto py-2">
+                <h2 class="text-center">Find Out What Your Carbon Foot Print is!</h2>
+            </div>
+
+            <div>
+                <div class="container d-none"> <!-- displays if info is already added in -->
+
+                </div>
+                <form class="container"> <!-- First time sign up / update info -->
+                    <div class="row bg-dark">
+                        <p class="text-center text-white">In order to calculate your carbon foot print we are going to need some information. 
+                            Electricity production and vehicle emissions are by far the biggest contributors to pollution, so thats what this focus on.
+                            Please note that these are just estimates and your true carbon foot print will very depending on your life style.
+                        </p>
+                        <p class="text-center text-white">
+                            First enter in information about each state you have lived in and for how long (Do not include your current state of residency). 
+                            Next enter in each vehicle you have owned in the past (not your current vehicle) and how many miles you drove in that vehicle 
+                            (a general estimate on the milage will work).
+                        </p>
+                    </div>
+                    <div class="row py-2 bg-dark">
+                        <div class="col-6"> <!-- Past Home Info -->
+                            <div class="d-none">
+                                <!-- Completed Message! -->
+                            </div>
+
+                            <div class="p-2 account-form form-styles">
+                                <div>
+                                    <h4 class="text-center text-white">Past Residency Info</h4>
+                                </div>
+                                <div>
+                                    <label for="pastState" class="">State</label>
+                                    <select class=" form-select" aria-label="Default select example" id="pastState" required>
+                                    <option disabled selected>State</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                                </div>
+                                <div>
+                                    <label for="pastStateYears">Years</label>
+                                    <input type="number" id="pastStateYears">
+                                </div>
+                                <div class="pt-2">
+                                    <button id="pastStateNext">Next State</button>
+                                </div>
+                                <div class="pt-2">
+                                    <button id="pastStateSubmit">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6"> <!-- Past Car Info -->
+                            <div class="d-none">
+                                <!-- Completed Message! -->
+                            </div>
+
+                            <div class="p-2 account-form form-styles">
+                                <div>
+                                    <h4 class="text-center text-white">Past Vehicle Info</h4>
+                                </div>
+                                <div>
+                                    <label for="pastVehicleMake">Make</label>
+                                    <input type="text" id="pastVehicleMake">
+                                </div>
+                                <div>
+                                    <label for="pastVehicleModel">Model</label>
+                                    <input type="text" id="pastVehicleModel">
+                                </div>
+                                <div>
+                                    <label for="pastVehicleYear">Year</label>
+                                    <input type="text" id="pastVehicleYear">
+                                </div>
+                                <div>
+                                    <label for="pastVehicleMiles">Miles Driven</label>
+                                    <input type="number" id="pastVehicleMiles">
+                                </div>
+                                <div class="pt-2">
+                                    <button id="pastVehicleNext">Next Vehicle</button>
+                                </div>
+                                <div class="pt-2">
+                                    <button id="pastVehicleSubmit">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row bg-dark">
+                        <p class="text-center text-white">
+                            We will also need information to give you an update you on your current emissions.
+                        </p>
+                        <p class="text-center text-white">
+                            Please enter the current state you live in and how long you have lived their (if you only have lived in only one state put 0 years).
+                            Next Enter in your current vehicle and how many miles you drive it each year (approximately).
+                        </p>
+                    </div>
+
+                    <div class="row py-2 bg-dark">
+                        <div class="col-6"> <!-- Current Home Info -->
+                            <div class="d-none">
+                                <!-- Completed Message! -->
+                            </div>
+
+                            <div class="p-2 account-form form-styles">
+                                <div>
+                                    <h4 class="text-center text-white">Current Residency</h4>
+                                </div>
+                                <div>
+                                    <label for="state" class="">State</label>
+                                    <select class=" form-select" aria-label="Default select example" id="state" required>
+                                    <option disabled selected>State</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                                </div>
+                                <div>
+                                    <label for="stateYearsLived">Years lived in (pre 2021)</label>
+                                    <input type="number" id="stateYears">
+                                </div>
+                                <div class="pt-2">
+                                    <button id="stateSubmit">Done</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-6"> <!-- Current Vehicle Info -->
+                            <div class="d-none">
+                                <!-- Completed Message! -->
+                            </div>
+
+                            <div class="p-2 account-form form-styles">
+                                <div>
+                                    <h4 class="text-center text-white">Current Vehicle Info</h4>
+                                </div>
+                                <div>
+                                    <label for="vehicleMake">Make</label>
+                                    <input type="text" id="vehicleMake">
+                                </div>
+                                <div>
+                                    <label for="vehicleModel">Model</label>
+                                    <input type="text" id="vehicleModel">
+                                </div>
+                                <div>
+                                    <label for="vehicleYear">Year</label>
+                                    <input type="text" id="vehicleYear">
+                                </div>
+                                <div>
+                                    <label for="vehicleMiles">Miles Driven (pre 2021)</label>
+                                    <input type="number" id="vehicleMiles">
+                                </div>
+                                <div>
+                                    <label for="vehicleMilesYearly">Miles Driven yearly</label>
+                                    <input type="number" id="vehicleMilesYearly">
+                                </div>
+                                <div class="pt-2">
+                                    <button id="vehicleSubmit">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row bg-dark pb-2 mb-3 ">
+                        <div class="col-12 d-none" id="accountFinalSubmit">
+                            <div class="p-2 bg-dark form-styles">
+                                <button type="submit" class="">Final Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-2 bg-dark m-0 p-0"></div>
+    </div>
+</section>

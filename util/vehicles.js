@@ -46,21 +46,25 @@ async function getVehicleMake(make) {
   }
   
   async function vehicleEstimateRequest(modelID, distanceValue, distanceUnit ) {
-    const { data } = await axios({
-        url: "https://www.carboninterface.com/api/v1/estimates",
-        method: 'post',
-        headers: {
-            'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
-            'content-type': 'application/json'
-        },
-        data: {
-            type: "vehicle",
-            distance_unit: distanceUnit,
-            distance_value: distanceValue,
-            vehicle_model_id: modelID
-        },
-    });
-    return data;
+    try {
+        const { data } = await axios({
+            url: "https://www.carboninterface.com/api/v1/estimates",
+            method: 'post',
+            headers: {
+                'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
+                'content-type': 'application/json'
+            },
+            data: {
+                type: "vehicle",
+                distance_unit: distanceUnit,
+                distance_value: distanceValue,
+                vehicle_model_id: modelID
+            },
+        });
+        return data.data.attributes;
+    } catch (err) {
+        return {error: err}
+    }
       
   }
 

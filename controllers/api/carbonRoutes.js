@@ -15,7 +15,11 @@ router.get('/vehicle', async function (req, res) {
             res.json({message: "Vehicle model and/or year not found. Please enter a valid vehicle model and year!"})
         } else {
             let carbonData = await vehicleEstimateRequest(modelId, req.query.dValue, req.query.dUnit);
-            res.json(carbonData);
+            if (carbonData.error) {
+                res.json({error: carbonData.error});
+            } else {
+                res.json(carbonData);
+            }
         }
     }
 });
@@ -53,6 +57,10 @@ router.post('/electricity', async function (req, res) {
     } else {
         res.json({lbs: estimate.totalCarbon.lbs, mt: estimate.totalCarbon.mt})
     }
+});
+
+router.post('/vehicles', async function (req, res) {
+    //body = [{make: toyota, model: 86, year: 2017, dValue: 100, dUnit: mi}, {...}]1
 });
 
 module.exports = router;
