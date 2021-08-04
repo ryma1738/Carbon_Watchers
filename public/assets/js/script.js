@@ -17,7 +17,7 @@ var currentEmissionsTimer = null;
 // const express = require('express');
 
 
-let newsKey = '826c8d002dc24d088e02c40677ecd5e5'
+// let newsKey = '826c8d002dc24d088e02c40677ecd5e5'
 
 
 
@@ -57,16 +57,16 @@ function navCLicked(event) {
       $("#about-us-page").removeClass("d-none");
       $("#footer").addClass("");
       break;
-    // case "login":
-    //   displayNoneAll();
-    //   $("#login-form").removeClass("d-none");
-    //   $("#footer").addClass("d-none");
-    //   break;
-    // case "signup":
-    //   displayNoneAll();
-    //   // $("#about-us-page").removeClass("d-none");
-    //   // $("#footer").addClass("");
-    //   break;
+    case "login":
+      displayNoneAll();
+      $("#login-form").removeClass("d-none");
+      $("#footer").addClass("d-none");
+      break;
+    case "signup":
+      displayNoneAll();
+      $("#signup-form").removeClass("d-none");
+      $("#footer").addClass("");
+      break;
     // case "logout":
     //   displayNoneAll();
     //   // $("#about-us-page").removeClass("d-none");
@@ -82,6 +82,8 @@ function displayNoneAll() {
   $("#global-carbon-emissions-page").addClass("d-none");
   $("#climate-change-page").addClass("d-none");
   $("#about-us-page").addClass("d-none");
+  $('#login-form').addClass('d-none')
+  $('#signup-form').addClass('d-none')
 clearInterval(currentEmissionsTimer);
 }
 
@@ -280,7 +282,6 @@ function globalEmissions() {
     $("#flight-form").addClass("d-none");
     $("#img-vehicles").removeClass("d-none");
     $("#img-flight").addClass("d-none");
-    $('#login-form').addClass('d-none')
   });
   $("#flight-btn").on("click", function(event) {
     event.preventDefault();
@@ -288,7 +289,6 @@ function globalEmissions() {
     $("#flight-form").removeClass("d-none");
     $("#img-vehicles").addClass("d-none");
     $("#img-flight").removeClass("d-none");
-    $('#login-form').removeClass('d-none');
   });
   // $("#vehicle-form").on("submit", getVehicleMake);
   // $("#flight-form").on("submit", flightFormSubmit);
@@ -314,16 +314,17 @@ function globalEmissions() {
     modal_container2.classList.remove('show');
   });
 
-  var login = document.getElementById('login');
-  var loginform = document.getElementById('login-form');
-  var loginclose = document.getElementById('closelogin');
+  // var login = document.getElementById('login');
+  // var loginform = document.getElementById('login-form');
+  // var loginclose = document.getElementById('closelogin');
 
-  login.addEventListener('click', () => {
-    loginform.classList.add('show');
-  });
-  loginclose.addEventListener('click', () => {
-    loginform.classList.remove('show');
-  });
+  // login.addEventListener('click', () => {
+  //   console.log('click');
+  //   loginform.classList.remove('d-none');
+  // });
+  // loginclose.addEventListener('click', () => {
+  //   loginform.classList.add('d-none');
+  // });
 
 
 

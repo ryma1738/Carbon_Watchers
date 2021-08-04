@@ -14,40 +14,15 @@
         <button class="btn btn-outline-success me-3 mb-2" type="button" id="global-carbon-emitions">Global Carbon Emissions</button>
         <button class="btn btn-outline-success me-3 mb-2" type="button" id="climate-change">Climate Change</button>
         <button class="btn btn-outline-success me-3 mb-2" type="button" id="about-us">About Us</button>
-        <button class="btn btn-outline-success me-3 mb-2" type="button" id="login">Login</button> 
-        <button class="btn btn-outline-success me-3 mb-2" type="button" id="signup">Signup</button>
+        <button class="btn btn-outline-success me-3 mb-2" type="button" id="login">Login</button>   
+        <button class="btn btn-outline-success me-3 mb-2" type="button" id="signup">Signup</button> 
         <button class="btn btn-outline-success me-3 mb-2" type="button" id="logout">Logout</button>
     </form>
     </nav>
 
-    <div class="modal" id="login-form" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content" id="logincontent">
-      <div class="modal-header">
-        <h5 class="modal-title">Login</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="loginForm">
-<h1 class="display-6 mt-3">Exsisting Users Login Here</h1>
-    <div class="mb-3 mt-3">
-        <input type="email" class="form-control" id="email-login" placeholder="Email Address">
-    </div>
-    <div class="mb-3 mt-3">
-        <input type="password" class="form-control" id="password-login" placeholder="Password">
-    </div>
-    
-</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="closelogin" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Login</button>
-      </div>
-    </div>
-  </div>
-</div>
+   {{>login}}
+   {{>signup}}
 
+ 
 </header>
 
-<script src="../../public/assets/js/script.js"></script>
-<script src="../../public/assets/js/login.js"></script>
