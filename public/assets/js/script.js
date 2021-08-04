@@ -57,21 +57,21 @@ function navCLicked(event) {
       $("#about-us-page").removeClass("d-none");
       $("#footer").addClass("");
       break;
-    case "login":
-      displayNoneAll();
-      $("#login-form").removeClass("d-none");
-      $("#footer").addClass("d-none");
-      break;
-    case "signup":
-      displayNoneAll();
-      // $("#about-us-page").removeClass("d-none");
-      // $("#footer").addClass("");
-      break;
-    case "logout":
-      displayNoneAll();
-      // $("#about-us-page").removeClass("d-none");
-      // $("#footer").addClass("");
-      break;
+    // case "login":
+    //   displayNoneAll();
+    //   $("#login-form").removeClass("d-none");
+    //   $("#footer").addClass("d-none");
+    //   break;
+    // case "signup":
+    //   displayNoneAll();
+    //   // $("#about-us-page").removeClass("d-none");
+    //   // $("#footer").addClass("");
+    //   break;
+    // case "logout":
+    //   displayNoneAll();
+    //   // $("#about-us-page").removeClass("d-none");
+    //   // $("#footer").addClass("");
+    //   break;
   }
 }
 
@@ -313,5 +313,17 @@ function globalEmissions() {
   close2.addEventListener('click', () => {
     modal_container2.classList.remove('show');
   });
+
+  var login = document.getElementById('login');
+  var loginform = document.getElementById('login-form');
+  var loginclose = document.getElementById('closelogin');
+
+  login.addEventListener('click', () => {
+    loginform.classList.add('show');
+  });
+  loginclose.addEventListener('click', () => {
+    loginform.classList.remove('show');
+  });
+
 
 
