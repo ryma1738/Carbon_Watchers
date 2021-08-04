@@ -64,11 +64,16 @@
                     </div>
                     <div class="row py-2 bg-dark">
                         <div class="col-6"> <!-- Past Home Info -->
-                            <div class="d-none">
-                                <!-- Completed Message! -->
+                            <div class="d-none" id="pastHomeCheck">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-check-circle text-white mp-auto py-auto" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                                    </svg>
+                                </div>
                             </div>
 
-                            <div class="p-2 account-form form-styles">
+                            <div class="p-2 account-form form-styles" id="pastHomeForm">
                                 <div>
                                     <h4 class="text-center text-white">Past Residency Info</h4>
                                 </div>
@@ -133,19 +138,24 @@
                                     <input type="number" id="pastStateYears">
                                 </div>
                                 <div class="pt-2">
-                                    <button id="pastStateNext">Next State</button>
+                                    <button type="button" id="pastStateNext">Next State</button>
                                 </div>
                                 <div class="pt-2">
-                                    <button id="pastStateSubmit">Done</button>
+                                    <button type="button" id="pastStateSubmit">Done</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-6"> <!-- Past Car Info -->
-                            <div class="d-none">
-                                <!-- Completed Message! -->
+                            <div class="d-none" id="pastVehicleCheck">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-check-circle text-white mp-auto py-auto" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                                    </svg>
+                                </div>
                             </div>
 
-                            <div class="p-2 account-form form-styles">
+                            <div class="p-2 account-form form-styles" id="pastVehicleForm">
                                 <div>
                                     <h4 class="text-center text-white">Past Vehicle Info</h4>
                                 </div>
@@ -166,10 +176,10 @@
                                     <input type="number" id="pastVehicleMiles">
                                 </div>
                                 <div class="pt-2">
-                                    <button id="pastVehicleNext">Next Vehicle</button>
+                                    <button type="button" id="pastVehicleNext">Next Vehicle</button>
                                 </div>
                                 <div class="pt-2">
-                                    <button id="pastVehicleSubmit">Done</button>
+                                    <button type="button" id="pastVehicleSubmit">Done</button>
                                 </div>
                             </div>
                         </div>
@@ -187,11 +197,16 @@
 
                     <div class="row py-2 bg-dark">
                         <div class="col-6"> <!-- Current Home Info -->
-                            <div class="d-none">
-                                <!-- Completed Message! -->
+                            <div class="d-none" id="currentHomeCheck">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-check-circle text-white mp-auto py-auto" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                                    </svg>
+                                </div>
                             </div>
 
-                            <div class="p-2 account-form form-styles">
+                            <div class="p-2 account-form form-styles" id="currentHomeForm">
                                 <div>
                                     <h4 class="text-center text-white">Current Residency</h4>
                                 </div>
@@ -256,17 +271,22 @@
                                     <input type="number" id="stateYears">
                                 </div>
                                 <div class="pt-2">
-                                    <button id="stateSubmit">Done</button>
+                                    <button type="button" id="stateSubmit">Done</button>
                                 </div>
                             </div>
 
                         </div>
                         <div class="col-6"> <!-- Current Vehicle Info -->
-                            <div class="d-none">
-                                <!-- Completed Message! -->
+                            <div class="d-none" id="currentVehicleCheck">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-check-circle text-white mp-auto py-auto" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                                    </svg>
+                                </div>
                             </div>
 
-                            <div class="p-2 account-form form-styles">
+                            <div class="p-2 account-form form-styles" id="currentVehicleForm">
                                 <div>
                                     <h4 class="text-center text-white">Current Vehicle Info</h4>
                                 </div>
@@ -291,7 +311,7 @@
                                     <input type="number" id="vehicleMilesYearly">
                                 </div>
                                 <div class="pt-2">
-                                    <button id="vehicleSubmit">Done</button>
+                                    <button type="button" id="vehicleSubmit">Done</button>
                                 </div>
                             </div>
                         </div>
