@@ -49,9 +49,9 @@ function navCLicked(event) {
       $("#climate-change-page").removeClass("d-none");
       $("#footer").addClass("");
       break;
-    case "about-us":
+    case "account":
       displayNoneAll();
-      $("#about-us-page").removeClass("d-none");
+      $("#account-page").removeClass("d-none");
       $("#footer").addClass("");
       break;
     case "login":
@@ -79,8 +79,9 @@ function displayNoneAll() {
   $("#global-carbon-emissions-page").addClass("d-none");
   $("#climate-change-page").addClass("d-none");
   $("#about-us-page").addClass("d-none");
-  $('#login-form').addClass('d-none')
-  $('#signup-form').addClass('d-none')
+  $('#login-form').addClass('d-none');
+  $('#signup-form').addClass('d-none');
+  $('#account-page').addClass('d-none');
 clearInterval(currentEmissionsTimer);
 }
 
