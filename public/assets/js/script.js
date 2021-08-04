@@ -64,7 +64,7 @@ function displayNoneAll() {
   $("#global-carbon-emissions-page").addClass("d-none");
   $("#climate-change-page").addClass("d-none");
   $("#about-us-page").addClass("d-none");
- clearInterval(currentEmissionsTimer);
+clearInterval(currentEmissionsTimer);
 }
 
 function flightFormSubmit(event) {
@@ -144,27 +144,6 @@ function flightEstimateRequest(passengers, legs) {
     }
   });
 }
-
-// function electricityEstimateRequest() {
-//   //fetches electricity estimates from the api based on user data.
-//   fetch("https://www.carboninterface.com/api/v1/estimates", {
-//     method: "POST",
-//     headers: {
-//       'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
-//       'content-type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       "type": "electricity",
-//       "electricity_unit": "kwh",
-//       "electricity_value": 100,
-//       "country": "us",
-//       "state": "ut",
-//     }),
-//   }).then((response) => response.json())
-//   .then((data) => {
-//     console.log(data);
-//   });
-// }
 
 function shippingFormSubmit(event) {
   event.preventDefault();
@@ -247,28 +226,23 @@ function initalizeGlobalEmissions() {
 function globalEmissions() {
   currentAviationEmissions = Math.round((currentAviationEmissions + 0.2990233) * 100) / 100;
   var tempAviation = Math.round(currentAviationEmissions);
-  var aviation = tempAviation.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-  $("#current-aviation").text(aviation);
+  $("#current-aviation").text(tempAviation.toLocaleString());
 
   currentVehicleEmissions = Math.round((currentVehicleEmissions + 1.9025875) * 100) / 100;
   var tempVehicles = Math.round(currentVehicleEmissions);
-  var vehicles = tempVehicles.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-  $("#current-vehicle").text(vehicles);
+  $("#current-vehicle").text(tempVehicles.toLocaleString());
 
   currentShippingEmissions = Math.round((currentShippingEmissions + 0.2688990) *100) / 100;
   var tempShipping = Math.round(currentShippingEmissions);
-  var shipping = tempShipping.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-  $("#current-shipping").text(shipping);
+  $("#current-shipping").text(tempShipping.toLocaleString());
 
   currentEnergyEmissions = Math.round((currentEnergyEmissions + 10.4959411) * 100) / 100;
   var tempEnergy = Math.round(currentEnergyEmissions);
-  var energy = tempEnergy.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-  $("#current-energy").text(energy);
+  $("#current-energy").text(tempEnergy.toLocaleString());
 
   currentGlobalEmissions = Math.round((currentGlobalEmissions + 12.9664510) * 100) / 100;
   var tempGlobal = Math.round(currentGlobalEmissions);
-  var global = tempGlobal.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-  $("#current-global").text(global);
+  $("#current-global").text(tempGlobal.toLocaleString());
 }
 
 

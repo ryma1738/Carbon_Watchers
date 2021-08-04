@@ -1,0 +1,108 @@
+<section class="d-none row" id="shipping-page">
+    <div class="container-fluid">
+        <div class="row travel-estimates-blackbar py-2">
+            <div class="col text-center">
+                <p><span class="main-color">Global Shipping</span> accounts for <span class="main-color">2.89%</span> of
+                    global emissions over all. Though not as large as some other areas,
+                    global shipping still puts over <span class="main-color">848,000,000 metric tons</span> of CO2 into
+                    the atmosphere each year.</p>
+                <p>Find out about your <span class="main-color">own</span> individual carbon footprint by filling the
+                    <span class="main-color">form</span> below.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="mx-2 my-2 py-2 form-styles">
+                    <h3 class="text-center text-white">Package Shipping</h3>
+                    <div class="border-top-form"></div>
+                    <div class="px-3 my-2">
+                        <p>See how much carbon dioxide it will take to get your package to your house! Just enter in the
+                            weight of your package
+                            in grams, kilograms, pounds, or metric tons. Then the distance the package has to travel
+                            (You can find where the package
+                            is coming from by checking your tracking details), and the method for shipping.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4" id="results Colums">
+                <div class="mx-2 my-2 py-2 form-styles">
+                    <h3 class="text-center text-white">Results</h3>
+                    <div class="border-top-form"></div>
+                    <div id="results-shipping" class="fs-5"></div>
+                </div>
+            </div>
+
+            <form class="col-12 col-lg-4" id="shipping-form">
+                <div class="mx-2 my-2 py-2 card form-styles info-travel">
+                    <h3 class="text-center">Package Details</h3>
+                    <div class="card-body border-top-form">
+                        <h5 class="card-title">Please Enter the Following:</h5>
+                        <div class="row mb-3">
+                            <div class="col-7">
+                                <div class="form-floating ">
+                                    <input type="number" class="form-control" min="1" id="weight-value"
+                                        placeholder="d-none" required>
+                                    <label for="weight-value">Item Weight</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <select class=" form-select" aria-label="Default select example" id="weight-unit"
+                                    required>
+                                    <option disabled selected>Unit</option>
+                                    <option value="g">G</option>
+                                    <option value="kg">KG</option>
+                                    <option value="lb">LB</option>
+                                    <option value="mt">MT</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-7">
+                                <div class="form-floating ">
+                                    <input type="number" class="form-control" min="1" id="s-distance-value"
+                                        placeholder="d-none" required>
+                                    <label for="s-distance-value">Distance</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <select class=" form-select" aria-label="Default select example" id="s-distance-unit"
+                                    required>
+                                    <option disabled selected>Unit</option>
+                                    <option value="mi">Miles</option>
+                                    <option value="km">KM</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <select class=" form-select" aria-label="Default select example" id="shipping-method"
+                                    required>
+                                    <option disabled selected>Shipping Method</option>
+                                    <option value="truck">Truck</option>
+                                    <option value="train">Train</option>
+                                    <option value="plane">Plane</option>
+                                    <option value="ship">Ship</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <button>Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mt-1 mx-0 px-0 d-none d-md-flex">
+                <img class="banner-travel " id="img-vehicles" src="./assets/images/shipping.jpg" />
+            </div>
+        </div>
+    </div>
+</section>

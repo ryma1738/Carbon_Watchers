@@ -1,0 +1,233 @@
+<section class="row" id="landing-page">
+    <div class="land header-landing">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="landText"><span class="main-color">E</span>arth's atmosphere is resilient to many of the
+                        changes humans have imposed on it...</p>
+                    <p class="landText2">our atmosphere will survive, but even the most advanced societies will <span
+                            class="main-color">not.</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-6 col-sm-12 col-12 become" id="landing-page-become-a-watcher">
+                    <p>Become A Watcher</p>
+                </div>
+                <div class="col-xl-6 col-sm-12" id="landing-page-start-form">
+                    <!-- Form  -->
+                    <!--Title  -->
+                    <form class="row g-3 joinForm join-form">
+                        <h3>Start the change</h3>
+                        <!-- First Name -->
+                        <div class="col-md-4">
+                            <label for="validationDefault01" class="form-label">First name</label>
+                            <input type="text" class="form-control is-valid" id="validationDefault01" placeholder="Mark"
+                                required>
+                        </div>
+                        <!-- Last Name -->
+                        <div class="col-md-4">
+                            <label for="validationDefault02" class="form-label">Last name</label>
+                            <input type="text" class="form-control is-valid" id="validationDefault02" placeholder="Otto"
+                                required>
+                        </div>
+                        <!-- City -->
+                        <div class="col-md-6">
+                            <label for="validationDefault03" class="form-label">City</label>
+                            <input type="text" class="form-control is-invalid" id="validationDefault03"
+                                aria-describedby="validationServer03Feedback" required>
+                        </div>
+                        <!-- State -->
+                        <div class="col-md-3">
+                            <label for="validationDefault04" class="form-label">State</label>
+                            <select class="form-select is-invalid" id="validationDefault04"
+                                aria-describedby="validationServer04Feedback" required>
+                                <option selected disabled value="">Choose...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <!-- Zip -->
+                        <div class="col-md-3">
+                            <label for="validationDefault05" class="form-label">Zip</label>
+                            <input type="text" class="form-control is-invalid" id="validationDefault05"
+                                aria-describedby="validationServer05Feedback" required>
+                        </div>
+                        <!-- Agree to Terms Check Box -->
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input is-invalid" type="checkbox" value="" id="invalidCheck3"
+                                    aria-describedby="invalidCheck3Feedback" required>
+                                <label class="form-check-label" for="invalidCheck3">
+                                    Agree to terms and conditions
+                                </label>
+                                <div id="invalidCheck3Feedback" class="invalid-feedback">
+                                    You must agree before submitting.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="col-12">
+                            <button class="btn btn-primary formBtn" type="submit">Submit form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Transition -->
+    <div class="container-fluid afterLanding d-none">
+        <div class="row">
+            <div class="col">
+                Take a look at the effects we have in our planet
+            </div>
+        </div>
+    </div>
+    <!-- End of Transition -->
+
+    <!-- Travel Estimates -->
+
+</section>
+<!-- End of Landing Page -->
+
+<!-- Start Second Page Travel Estimates -->
+<section class="d-none row" id="travel-estimates-page">
+    <div class="container-fluid">
+        <div class="row travel-estimates-blackbar py-2">
+            <div class="col text-center">
+                <p><span class="main-color">Transportion</span> accounts for around <span class="main-color">one-fifth
+                        of global
+                        carbon dioxide emissions.</span> In some countries, often richer countries with populations that
+                    travel often,
+                    <span class="main-color">transport</span> can be one of the largest segments of an individual’s
+                    carbon
+                    <span class="main-color">footprint.</span>
+                </p>
+                <p>Find out about your <span class="main-color">own</span> individual carbon footprint by filling the
+                    <span class="main-color">form</span> below.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="mx-2 my-2 py-2 form-styles">
+                    <h3 class="text-center text-white">Method of Travel</h3>
+                    <div class="border-top-form"></div>
+                    <div class="px-3 my-2">
+                        <p>See how much carbon dioxide your car puts in to the atmosphere after driving a certin
+                            distance!</p>
+                        <button class="col-12 py-2" id="vehicle-btn">Car</button>
+                    </div>
+                    <div class="px-3 my-3">
+                        <p>See how much carbon dioxide your flight will put into the atmosphere! Just enter in the
+                            airport IATA code for
+                            your arival and destination airports. This can be found by googleing your airport and
+                            entering in the 3 letter
+                            code found on the search page.</p>
+                        <button class="col-12 py-2" id="flight-btn">Flight</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="mx-2 my-2 py-2 form-styles">
+                    <h3 class="text-center text-white">Results</h3>
+                    <div class="border-top-form"></div>
+                    <div id="results" class="fs-5"></div>
+                </div>
+            </div>
+
+            <form class="col-12 col-lg-4" id="vehicle-form">
+                <div class="mx-2 my-2 py-2 card form-styles info-travel">
+                    <h3 class="text-center">Vehicle Data</h3>
+                    <div class="card-body border-top-form">
+                        <h5 class="card-title">Please Enter the Following :</h5>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="make" placeholder="d-none" required>
+                            <label for="make">Make</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="model" placeholder="d-none" required>
+                            <label for="model">Model</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="year" placeholder="d-none" required>
+                            <label for="year">Year</label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-7">
+                                <div class="form-floating ">
+                                    <input type="number" class="form-control" min="1" id="distance-value"
+                                        placeholder="d-none" required>
+                                    <label for="distance-value">Distance</label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <select class=" form-select" aria-label="Default select example" id="distance-unit"
+                                    required>
+                                    <option disabled selected>Unit</option>
+                                    <option value="mi">Miles</option>
+                                    <option value="km">KM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <button>Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <form class="col-12 col-lg-4 d-none" id="flight-form">
+                <div class="mx-2 my-2 py-2 card form-styles info-travel">
+                    <h3 class="text-center">Flight Data</h3>
+                    <div class="card-body border-top-form">
+                        <h5 class="card-title">Please Enter the Following :</h5>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" min="2" max="853" id="passengers"
+                                placeholder="d-none" required>
+                            <label for="passengers">Total # of Passengers</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" maxlength="3" id="d-airport-code"
+                                placeholder="d-none" required>
+                            <label for="d-airport-code">Departure Airport Code</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" maxlength="3" id="a-airport-code"
+                                placeholder="d-none" required>
+                            <label for="a-airport-code">Ariving Airport Code</label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="return-trip">
+                            <label class="form-check-label" for="return-trip">
+                                Include Return Trip
+                            </label>
+                        </div>
+                        <div>
+                            <button>Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="col-12 mt-1 mx-0 px-0 d-none d-md-flex">
+                <img class="banner-travel " id="img-vehicles" src="./assets/images/traffic.jpg" />
+                <img class="banner-travel d-none" id="img-flight" src="./assets/images/flight.jpg" />
+            </div>
+        </div>
+    </div>
+</section>
+
+{{>shipping}}
+
+{{>globalchange}}
+
+{{>climatechange}}
+
+{{>aboutus}}
+
+</section>

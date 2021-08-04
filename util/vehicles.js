@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 async function getVehicleMake(make) {
-    let { data } = await axios.get('https://www.carboninterface.com/api/v1/vehicle_makes', {
+    const { data } = await axios.get('https://www.carboninterface.com/api/v1/vehicle_makes', {
         headers: {
             'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
             'content-type': 'application/json'
@@ -24,16 +24,16 @@ async function getVehicleMake(make) {
   }
   
   async function getVehicleModel(makeId, model, year) {
-    let {data} = await axios.get('https://www.carboninterface.com/api/v1/vehicle_makes/' + makeId + "/vehicle_models", {
+    const {data} = await axios.get('https://www.carboninterface.com/api/v1/vehicle_makes/' + makeId + "/vehicle_models", {
       headers: {
         'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
         'content-type': 'application/json'
       }
     });
-    var check = false;
-    for (var i = 0; i < data.length; i++) {
+    let check = false;
+    for (let i = 0; i < data.length; i++) {
         if (model === data[i].data.attributes.name.toLowerCase() && year === data[i].data.attributes.year) {
-            var modalID = data[i].data.id;
+            var modelID = data[i].data.id;
             check = true;
             break;
         }
@@ -41,12 +41,12 @@ async function getVehicleMake(make) {
     if (!check) {
         return false;
     } else {
-        return modalID;
+        return modelID;
     }
   }
   
   async function vehicleEstimateRequest(modelID, distanceValue, distanceUnit ) {
-    let { data } = await axios({
+    const { data } = await axios({
         url: "https://www.carboninterface.com/api/v1/estimates",
         method: 'post',
         headers: {
