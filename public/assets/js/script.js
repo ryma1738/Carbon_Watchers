@@ -119,14 +119,40 @@ function globalEmissions() {
   $("#current-global").text(tempGlobal.toLocaleString());
 }
 
+async function loginFormHandler(event) {
+  event.preventDefault();
+  
+  const email = document.querySelector('#email-login').value.trim();
+  const password = document.querySelector('#password-login').value.trim();
+  if (email && password) {
+    console.log(email, password)
+    const response = await fetch('/api/users/login', {
+      method: 'post',
+      body: JSON.stringify({
+        email,
+        password
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    if (response.ok) {
+      console.log('logged in!')
+      document.location.replace('/');
+    } else {
+      alert(response.statusText);
+    }
+  }
+}
+
+
+
+document.querySelector('#submit-login').addEventListener('submit', loginFormHandler);
+
 
 //Event Handlers
   $("#header").on("click", navCLicked);
 
-  // $('#login').on('click', function(event) {
-  //   event.preventDefault();
-  //   $('#login-form').removeClass('d-none');
-  // } )
+
   //Travel Estimates events
   $("#vehicle-btn").on("click", function(event) {
     event.preventDefault();
@@ -145,12 +171,9 @@ function globalEmissions() {
   // $("#vehicle-form").on("submit", getVehicleMake);
   // $("#flight-form").on("submit", flightFormSubmit);
   // $("#shipping-form").on("submit", shippingFormSubmit);
-// function login() {
-//   console.log('click')
-//   document.location.replace('login');
 
-// }
-//   $('#login').on('click', login)
+
+
 
 
 
