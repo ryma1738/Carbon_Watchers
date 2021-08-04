@@ -14,6 +14,9 @@ var currentEnergyEmissions = 0;
 var currentGlobalEmissions = 0;
 var currentEmissionsTimer = null;
 
+let newsKey = '826c8d002dc24d088e02c40677ecd5e5'
+
+
 
 function navCLicked(event) {
     // Handles user clicks on a nav bar button
@@ -267,6 +270,7 @@ function globalEmissions() {
   var global = tempGlobal.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   $("#current-global").text(global);
 }
+
 
 //Event Handlers
   $("#header").on("click", navCLicked);
