@@ -14,6 +14,9 @@ var currentEnergyEmissions = 0;
 var currentGlobalEmissions = 0;
 var currentEmissionsTimer = null;
 
+// const express = require('express');
+
+
 let newsKey = '826c8d002dc24d088e02c40677ecd5e5'
 
 
@@ -54,6 +57,21 @@ function navCLicked(event) {
       $("#about-us-page").removeClass("d-none");
       $("#footer").addClass("");
       break;
+    case "login":
+      displayNoneAll();
+      $("#login-form").removeClass("d-none");
+      $("#footer").addClass("d-none");
+      break;
+    case "signup":
+      displayNoneAll();
+      // $("#about-us-page").removeClass("d-none");
+      // $("#footer").addClass("");
+      break;
+    case "logout":
+      displayNoneAll();
+      // $("#about-us-page").removeClass("d-none");
+      // $("#footer").addClass("");
+      break;
   }
 }
 
@@ -66,6 +84,8 @@ function displayNoneAll() {
   $("#about-us-page").addClass("d-none");
 clearInterval(currentEmissionsTimer);
 }
+
+
 
 function flightFormSubmit(event) {
   event.preventDefault();
@@ -248,6 +268,11 @@ function globalEmissions() {
 
 //Event Handlers
   $("#header").on("click", navCLicked);
+
+  // $('#login').on('click', function(event) {
+  //   event.preventDefault();
+  //   $('#login-form').removeClass('d-none');
+  // } )
   //Travel Estimates events
   $("#vehicle-btn").on("click", function(event) {
     event.preventDefault();
@@ -255,6 +280,7 @@ function globalEmissions() {
     $("#flight-form").addClass("d-none");
     $("#img-vehicles").removeClass("d-none");
     $("#img-flight").addClass("d-none");
+    $('#login-form').addClass('d-none')
   });
   $("#flight-btn").on("click", function(event) {
     event.preventDefault();
@@ -262,10 +288,18 @@ function globalEmissions() {
     $("#flight-form").removeClass("d-none");
     $("#img-vehicles").addClass("d-none");
     $("#img-flight").removeClass("d-none");
+    $('#login-form').removeClass('d-none');
   });
-  $("#vehicle-form").on("submit", getVehicleMake);
-  $("#flight-form").on("submit", flightFormSubmit);
-  $("#shipping-form").on("submit", shippingFormSubmit);
+  // $("#vehicle-form").on("submit", getVehicleMake);
+  // $("#flight-form").on("submit", flightFormSubmit);
+  // $("#shipping-form").on("submit", shippingFormSubmit);
+// function login() {
+//   console.log('click')
+//   document.location.replace('login');
+
+// }
+//   $('#login').on('click', login)
+
 
 
 // Modal 
