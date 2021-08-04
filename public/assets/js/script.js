@@ -1,15 +1,18 @@
 
-var aviationGlobalEmissions = 943000000;  //943,000,000 Metric Tons, 29.90233 Metric Tons per Second, 0.2990233 every 10ms
-var vehicleGlobalEmissions = 6000000000;   //6,000,000,000 Metric Tons, 190.25875 Metric Tons per Second, 1.9025875 every 10ms
-var shippingGlobalEmissions = 848000000;   //848,000,000 Metric Tons, 26.88990 Metric tons per Second, 0.2688990 every 10ms
-var energyGenerationGlobalEmissions = 33100000000; //33,100,000,000 Metric Tons, 1,049.59411 Metric Tons per Second, 10.4959411 every 10ms
-var totalGlobalEmissions = 40891000000 ; //40,891,000,000 Metric Tons, 1,296.64510 Metric Tons per Second, 12.9664510 every 10ms
+const aviationGlobalEmissions = 943000000;  //943,000,000 Metric Tons, 29.90233 Metric Tons per Second, 0.2990233 every 10ms
+const vehicleGlobalEmissions = 6000000000;   //6,000,000,000 Metric Tons, 190.25875 Metric Tons per Second, 1.9025875 every 10ms
+const shippingGlobalEmissions = 848000000;   //848,000,000 Metric Tons, 26.88990 Metric tons per Second, 0.2688990 every 10ms
+const energyGenerationGlobalEmissions = 33100000000; //33,100,000,000 Metric Tons, 1,049.59411 Metric Tons per Second, 10.4959411 every 10ms
+const totalGlobalEmissions = 40891000000 ; //40,891,000,000 Metric Tons, 1,296.64510 Metric Tons per Second, 12.9664510 every 10ms
 var currentAviationEmissions = 0;
 var currentVehicleEmissions = 0;
 var currentShippingEmissions = 0;
 var currentEnergyEmissions = 0;
 var currentGlobalEmissions = 0;
 var currentEmissionsTimer = null;
+var userTotalCarbonHome = [];
+var userTotalCarbonVehicle = [];
+var doneWithAccountForm = 0;
 
 // const express = require('express');
 
@@ -21,7 +24,7 @@ var currentEmissionsTimer = null;
 function navCLicked(event) {
     // Handles user clicks on a nav bar button
   event.preventDefault();
-  var targetId = event.target.getAttribute("id");
+  let targetId = event.target.getAttribute("id");
   switch (targetId){
     case "title":
       displayNoneAll();
@@ -86,9 +89,9 @@ clearInterval(currentEmissionsTimer);
 }
 
 function initializeGlobalEmissions() {
-  var today = moment();
-  var startOfTheYear = moment("2021-01-01 00:00:00")
-  var difference = Math.round(moment.duration(today.diff(startOfTheYear)).as("seconds"));
+  let today = moment();
+  let startOfTheYear = moment("2021-01-01 00:00:00")
+  let difference = Math.round(moment.duration(today.diff(startOfTheYear)).as("seconds"));
   currentAviationEmissions = 29.90233 * difference;
   currentVehicleEmissions = 190.25875 * difference;
   currentShippingEmissions = 26.88990 * difference;
@@ -119,39 +122,146 @@ function globalEmissions() {
   $("#current-global").text(tempGlobal.toLocaleString());
 }
 
-async function loginFormHandler(event) {
-  event.preventDefault();
-  
+
+
+function loginFormHandler() {
+  console.log('started')
   const email = document.querySelector('#email-login').value.trim();
   const password = document.querySelector('#password-login').value.trim();
   if (email && password) {
     console.log(email, password)
-    const response = await fetch('/api/users/login', {
-      method: 'post',
-      body: JSON.stringify({
+    $.ajax('/api/users/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: {
         email,
         password
-      }),
-      headers: { 'Content-Type': 'application/json' }
+      },
+      success: () => {
+        console.log('logged in!')
+        document.location.replace('/');
+      },
+      error: (err) => {
+        alert(err);
+      }
     });
+  }
+}
 
-    if (response.ok) {
-      console.log('logged in!')
-      document.location.replace('/');
-    } else {
-      alert(response.statusText);
-    }
+function checkAccountForm() {
+  if (doneWithAccountForm === 4) {
+    $('#accountFinalSubmit').removeClass('d-none')
+    $('#')
   }
 }
 
 
-
-document.querySelector('#submit-login').addEventListener('submit', loginFormHandler);
+$('#submit-login').on('submit', (event) => {
+  event.preventDefault();
+  loginFormHandler();
+});
 
 
 //Event Handlers
   $("#header").on("click", navCLicked);
 
+// Account Form Events
+  $("#pastStateNext").on('submit', (event) => {
+    event.preventDefault();
+    let state = $('#pastState').val();
+    let year = parseInt($('#pastStateYears').val())
+    if (state && year) {
+      state = state.toLowerCase();
+      let temp = {};
+      temp[state] = year;
+      userTotalCarbonHome.push(temp);
+      $('#pastState').val('');
+      $('#pastStateYears').val(0);
+      console.log(userTotalCarbonHome);
+    } else {
+      alert('You must enter in a valid state and year!');
+    }
+  });
+
+  $('#pastStateSubmit').on('submit', (event) => {
+    event.preventDefault();
+    let state = $('#pastState').val()
+    let year = parseInt($('#pastStateYears').val());
+    if (state && year) {
+      state = state.toLowerCase()
+      let temp = {};
+      temp[state] = year;
+      userTotalCarbonHome.push(temp);
+    }
+    $('#pastHomeForm').addClass('d-none');
+    $('#pastHomeCheck').removeClass('d-none');
+    doneWithAccountForm ++;
+  });
+
+  $('#pastVehicleNext').on('submit', (event) => {
+    event.preventDefault();
+
+  });
+
+
+  // Vehicle Make Selected Events
+
+  $('#pastVehicleMake').on('change', (event) => {
+    event.preventDefault();
+    let make = $('#pastVehicleMake').val();
+    $('#pastVehicleModel').empty();
+    $.ajax('/api/carbon/models?make=' + make, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      success: (data) => {
+        let html = [];
+        for (let i = 0; i < data.length; i++) {
+          let temp = "<option value=" + data[i] + ">" + data[i] + "</option";
+          html.push(temp);
+        }
+        $("#pastVehicleModel").append(html);
+        $('#pastVehicleModel').removeAttr('disabled')
+      }
+    });
+  });
+
+  $('#vehicleMake').on('change', (event) => {
+    event.preventDefault();
+    let make = $('#vehicleMake').val();
+    $('#vehicleModel').empty();
+    $.ajax('/api/carbon/models?make=' + make, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      success: (data) => {
+        let html = [];
+        for (let i = 0; i < data.length; i++) {
+          let temp = "<option value=" + data[i] + ">" + data[i] + "</option";
+          html.push(temp);
+        }
+        $("#vehicleModel").append(html);
+        $('#vehicleModel').removeAttr('disabled');
+      }
+    });
+  });
+
+  $('#make').on('change', (event) => {
+    event.preventDefault();
+    let make = $('#make').val();
+    $('#model').empty();
+    $.ajax('/api/carbon/models?make=' + make, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      success: (data) => {
+        let html = [];
+        for (let i = 0; i < data.length; i++) {
+          let temp = "<option value=" + data[i] + ">" + data[i] + "</option";
+          html.push(temp);
+        }
+        $("#model").append(html);
+        $('#model').removeAttr('disabled')
+      }
+    });
+  });
 
   //Travel Estimates events
   $("#vehicle-btn").on("click", function(event) {
