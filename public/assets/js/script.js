@@ -11,6 +11,12 @@ var currentEnergyEmissions = 0;
 var currentGlobalEmissions = 0;
 var currentEmissionsTimer = null;
 
+// const express = require('express');
+
+
+// let newsKey = '826c8d002dc24d088e02c40677ecd5e5'
+
+
 
 function navCLicked(event) {
     // Handles user clicks on a nav bar button
@@ -48,6 +54,21 @@ function navCLicked(event) {
       $("#about-us-page").removeClass("d-none");
       $("#footer").addClass("");
       break;
+    case "login":
+      displayNoneAll();
+      $("#login-form").removeClass("d-none");
+      $("#footer").addClass("d-none");
+      break;
+    case "signup":
+      displayNoneAll();
+      $("#signup-form").removeClass("d-none");
+      $("#footer").addClass("");
+      break;
+    // case "logout":
+    //   displayNoneAll();
+    //   // $("#about-us-page").removeClass("d-none");
+    //   // $("#footer").addClass("");
+    //   break;
   }
 }
 
@@ -58,6 +79,8 @@ function displayNoneAll() {
   $("#global-carbon-emissions-page").addClass("d-none");
   $("#climate-change-page").addClass("d-none");
   $("#about-us-page").addClass("d-none");
+  $('#login-form').addClass('d-none')
+  $('#signup-form').addClass('d-none')
 clearInterval(currentEmissionsTimer);
 }
 
@@ -95,8 +118,14 @@ function globalEmissions() {
   $("#current-global").text(tempGlobal.toLocaleString());
 }
 
+
 //Event Handlers
   $("#header").on("click", navCLicked);
+
+  // $('#login').on('click', function(event) {
+  //   event.preventDefault();
+  //   $('#login-form').removeClass('d-none');
+  // } )
   //Travel Estimates events
   $("#vehicle-btn").on("click", function(event) {
     event.preventDefault();
@@ -112,9 +141,16 @@ function globalEmissions() {
     $("#img-vehicles").addClass("d-none");
     $("#img-flight").removeClass("d-none");
   });
-  $("#vehicle-form").on("submit", getVehicleMake);
-  $("#flight-form").on("submit", flightFormSubmit);
-  $("#shipping-form").on("submit", shippingFormSubmit);
+  // $("#vehicle-form").on("submit", getVehicleMake);
+  // $("#flight-form").on("submit", flightFormSubmit);
+  // $("#shipping-form").on("submit", shippingFormSubmit);
+// function login() {
+//   console.log('click')
+//   document.location.replace('login');
+
+// }
+//   $('#login').on('click', login)
+
 
 
 // Modal 
@@ -128,5 +164,18 @@ function globalEmissions() {
   close2.addEventListener('click', () => {
     modal_container2.classList.remove('show');
   });
+
+  // var login = document.getElementById('login');
+  // var loginform = document.getElementById('login-form');
+  // var loginclose = document.getElementById('closelogin');
+
+  // login.addEventListener('click', () => {
+  //   console.log('click');
+  //   loginform.classList.remove('d-none');
+  // });
+  // loginclose.addEventListener('click', () => {
+  //   loginform.classList.add('d-none');
+  // });
+
 
 
