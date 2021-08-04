@@ -38,9 +38,9 @@ function navCLicked(event) {
       $("#shipping-page").removeClass("d-none");
       $("#footer").addClass("");
       break;
-    case "global-carbon-emitions":
+    case "global-carbon-emissions":
       displayNoneAll();
-      initalizeGlobalEmissions();
+      initializeGlobalEmissions();
       $("#global-carbon-emissions-page").removeClass("d-none");
       $("#footer").addClass("");
       break;
@@ -85,7 +85,7 @@ function displayNoneAll() {
 clearInterval(currentEmissionsTimer);
 }
 
-function initalizeGlobalEmissions() {
+function initializeGlobalEmissions() {
   var today = moment();
   var startOfTheYear = moment("2021-01-01 00:00:00")
   var difference = Math.round(moment.duration(today.diff(startOfTheYear)).as("seconds"));
