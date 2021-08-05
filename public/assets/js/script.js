@@ -194,8 +194,11 @@ function logout(event) {
 function checkAccountForm() {
   if (doneWithAccountForm === 4) {
     $('#accountFinalSubmit').removeClass('d-none')
-    $('#')
   }
+}
+
+function addPersonalTotalEmissions() {
+
 }
 
 
@@ -219,7 +222,7 @@ $('#logout').on('click', (event) => {
   $("#header").on("click", navCLicked);
 
 // Account Form Events
-  $("#pastStateNext").on('submit', (event) => {
+  $("#pastStateNext").on('click', (event) => {
     event.preventDefault();
     let state = $('#pastState').val();
     let year = parseInt($('#pastStateYears').val())
@@ -229,14 +232,14 @@ $('#logout').on('click', (event) => {
       temp[state] = year;
       userTotalCarbonHome.push(temp);
       $('#pastState').val('');
-      $('#pastStateYears').val(0);
+      $('#pastStateYears').val('');
       console.log(userTotalCarbonHome);
     } else {
       alert('You must enter in a valid state and year!');
     }
   });
 
-  $('#pastStateSubmit').on('submit', (event) => {
+  $('#pastStateSubmit').on('click', (event) => {
     event.preventDefault();
     let state = $('#pastState').val()
     let year = parseInt($('#pastStateYears').val());
@@ -251,7 +254,7 @@ $('#logout').on('click', (event) => {
     doneWithAccountForm ++;
   });
 
-  $('#pastVehicleNext').on('submit', (event) => {
+  $('#pastVehicleNext').on('click', (event) => {
     event.preventDefault();
 
   });
