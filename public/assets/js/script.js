@@ -183,7 +183,6 @@ function logout(event) {
   });
 }
 
-
 function vehicleFormSubmit(event) {
   event.preventDefault();
   let make = $('#make').val();
@@ -265,8 +264,62 @@ function flightFormSubmit(event) {
   }
 }
 
-
-
+function shippingFormSubmit(event) {
+  event.preventDefault();
+  let weight = $('#weight-value').val();
+  let weightUnit = $('#weight-unit').val();
+  let distance = $('#s-distance-value').val();
+  let distanceUnit = $('#s-distance-unit').val();
+  let shippingMethod = $('#shipping-method').val();
+  if (weight <= 0.1) {
+    $("#results-shipping").html("<p class='text-center px-2 py-3'>Weight value must be greater than 0.1! Please enter a valid weight value</p>");
+    return;
+  }
+  if (distance <= 0) {
+    $("#results-shipping").html("<p class='text-center px-2 py-3'>Distance value must be greater than 0! Please enter a valid distance value.</p>");
+     return;
+  }
+  if (weight && weightUnit && distance && distanceUnit && shippingMethod) {
+    $("#results-shipping")
+    .html("<p class='px-2 mt-2 text-center' fw-bold>Loading your Results <div class='loader pb-2 my-auto mx-auto'</div></p>");
+    $.ajax({
+      url: '/api/carbon/shipping?weight=' + weight + '&distance=' + distance +  '&dUnit=' + distanceUnit + '&wUnit=' + weightUnit + '&method=' + shippingMethod,
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+      success: (data) => { 
+        if (distanceUnit === "mi"){
+          distanceUnit = "Miles";
+        }
+        else {
+          distanceUnit = "Kilometers";
+        }
+        var carbonG = Math.round((data.carbon_g ) * 100) / 100;
+        var carbonLbs = Math.round((data.carbon_lb) * 100) / 100;
+        var carbonMt = Math.round((data.carbon_mt) * 100) / 100;
+    
+        if (carbonG < 500) {
+          $("#results-shipping").html("<p class='text-center px-2 py-3'>Your package would create <span class='main-color'>" + carbonG + " grams</span> of CO2 emissions after traveling " + distance + " " + distanceUnit + " via " + shippingMethod + ".</p>");
+        }
+        else if (carbonLbs >= 1.1 && carbonLbs <= 2250) {
+          $("#results-shipping").html("<p class='text-center px-2 py-3'>Your package would create <span class='main-color'>" + carbonLbs + " pounds</span> of CO2 emissions after traveling " + distance + " " + distanceUnit + " via " + shippingMethod + ".</p>");
+        }
+        else if (carbonMt > 1) {
+          $("#results-shipping").html("<p class='text-center px-2 py-3'>Your package would create <span class='main-color'>" + carbonMt + " metric tons</span> of CO2 emissions after traveling " + distance + " " + distanceUnit + " via " + shippingMethod + ".</p>");
+        }
+      },
+      error: (jxr, stat, err) => {
+        if (err === 'Unprocessable Entity') {
+          $("#results-shipping").html("<p class='text-center px-2 py-3'>Invalid Request: Please try again.</p>");
+        } else {
+          alert("Their was a network error while trying to get your request. Please try again.");
+        $("#results-shipping").html(" ");
+        }
+      }
+    });
+  } else {
+    alert('You must enter in all information before submitting!');
+  }
+}
 
 function checkAccountForm() {
   if (doneWithAccountForm === 4) {
@@ -276,7 +329,19 @@ function checkAccountForm() {
   }
 }
 
+
 //Event Handlers
+$('#submit-login').on('click', (event) => {
+  event.preventDefault();
+  loginFormHandler();
+  $('#login-form').addClass('d-none')
+});
+
+$('#logout').on('click', (event) => {
+  event.preventDefault();
+  logout();
+});
+
   $("#header").on("click", navCLicked);
 
   $('#submit-login').on('click', (event) => {
@@ -505,7 +570,7 @@ function checkAccountForm() {
   });
   $("#vehicle-form").on("submit", vehicleFormSubmit);
   $("#flight-form").on("submit", flightFormSubmit);
-  // $("#shipping-form").on("submit", shippingFormSubmit);
+  $("#shipping-form").on("submit", shippingFormSubmit);
 
 // Modal 
   var open2 = document.getElementById('open2');

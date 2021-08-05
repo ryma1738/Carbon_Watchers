@@ -54,6 +54,9 @@ router.get('/shipping', async function (req, res) {
     // queries: ?weight=200&distance=1000&dUnit=mi&wUnit=lb&method=truck
     let shipping = await shippingEstimateRequest(parseInt(req.query.weight), parseInt(req.query.distance),
      req.query.dUnit.toLowerCase(), req.query.wUnit.toLowerCase(), req.query.method.toLowerCase());
+     if (shipping.error) {
+         res.status(422).json(shipping.error);
+     }
      res.json(shipping);
 });
 
