@@ -148,6 +148,49 @@ function loginFormHandler() {
   }
 }
 
+ function signupFormHandler(event) {
+ 
+
+  const username = document.querySelector('#username-signup').value.trim();
+  const email = document.querySelector('#email-signup').value.trim();
+  const password = document.querySelector('#password-signup').value.trim();
+
+  if (username && email && password) {
+    $.ajax('/api/users/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: {
+        username,
+        email,
+        password
+      },
+      success: () => {
+        console.log('Account Created!')
+        document.location.replace('/');
+      },
+      error: (err) => {
+        alert(err);
+      }
+    });
+  }
+  
+}
+
+function logout(event) {
+  $.ajax('/api/users/logout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    
+    success: () => {
+      console.log('logged out!')
+      document.location.replace('/');
+    },
+    error: (err) => {
+      alert(err);
+    }
+  });
+}
+
 function checkAccountForm() {
   if (doneWithAccountForm === 4) {
     $('#accountFinalSubmit').removeClass('d-none')
@@ -156,9 +199,19 @@ function checkAccountForm() {
 }
 
 
-$('#submit-login').on('submit', (event) => {
+$('#submit-login').on('click', (event) => {
   event.preventDefault();
   loginFormHandler();
+});
+
+$('#submit-signup').on('click', (event) => {
+  event.preventDefault();
+  signupFormHandler();
+});
+
+$('#logout').on('click', (event) => {
+  event.preventDefault();
+  logout();
 });
 
 
