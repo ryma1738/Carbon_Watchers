@@ -347,6 +347,18 @@ $('#logout').on('click', (event) => {
   $('#submit-login').on('click', (event) => {
     event.preventDefault();
     loginFormHandler();
+    $('#login-form').addClass('d-none')
+  });
+  
+  $('#submit-signup').on('click', (event) => {
+    event.preventDefault();
+    signupFormHandler();
+    $('#signup-form').addClass('d-none')
+  });
+  
+  $('#logout').on('click', (event) => {
+    event.preventDefault();
+    logout();
   });
 
 // Account Form Events
@@ -571,5 +583,3 @@ $('#logout').on('click', (event) => {
   close2.addEventListener('click', () => {
     modal_container2.classList.remove('show');
   });
-
-
