@@ -64,8 +64,6 @@ router.post('/vehicles', async function (req, res) {
     //body = [{make: toyota, model: 86, year: 2017, dValue: 100, dUnit: mi}, {...}]1
 });
 
-module.exports = router;
-
 router.get('/models', async function (req, res) {
     // query = ?make=Toyota
     let makeId = await getVehicleMake(req.query.make.toLowerCase());
@@ -85,3 +83,5 @@ router.get('/models', async function (req, res) {
     models = models.sort();
     res.json(models);
 });
+
+module.exports = router;
