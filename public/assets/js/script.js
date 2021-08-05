@@ -3,20 +3,27 @@ const vehicleGlobalEmissions = 6000000000;   //6,000,000,000 Metric Tons, 190.25
 const shippingGlobalEmissions = 848000000;   //848,000,000 Metric Tons, 26.88990 Metric tons per Second, 0.2688990 every 10ms
 const energyGenerationGlobalEmissions = 33100000000; //33,100,000,000 Metric Tons, 1,049.59411 Metric Tons per Second, 10.4959411 every 10ms
 const totalGlobalEmissions = 40891000000 ; //40,891,000,000 Metric Tons, 1,296.64510 Metric Tons per Second, 12.9664510 every 10ms
-var currentAviationEmissions = 0;
-var currentVehicleEmissions = 0;
-var currentShippingEmissions = 0;
-var currentEnergyEmissions = 0;
-var currentGlobalEmissions = 0;
-var currentEmissionsTimer = null;
+let totalUserEmissionsLbs = 0; //Total Emissions of user that is logged in, in pounds.
+let totalUserEmissionsMt = 0; //Total Emissions of user in Metric tons
 
-var userTotalCarbonHome = [];
-var userTotalCarbonVehicle = [];
-var userTotalCarbonCurrent = {};
-var doneWithAccountForm = 0;
+let currentAviationEmissions = 0;
+let currentVehicleEmissions = 0;
+let currentShippingEmissions = 0;
+let currentEnergyEmissions = 0;
+let currentGlobalEmissions = 0;
+let currentUserEmissionsLbs = 0;
+let currentUserEmissionsMt = 0;
+let currentEmissionsTimer = null;
 
-// const express = require('express');
-
+let useUserCarbon = false; //These values are need to make the users Current emissions work
+let userCPerSecLbs = 0;
+let userCPerMsLbs = 0;
+let userCPerSecMt = 0;
+let userCPerMsMt = 0;
+let userTotalCarbonHome = [];
+let userTotalCarbonVehicle = [];
+let userTotalCarbonCurrent = {};
+let doneWithAccountForm = 0;
 
 // let newsKey = '826c8d002dc24d088e02c40677ecd5e5'
 
@@ -98,29 +105,43 @@ function initializeGlobalEmissions() {
   currentShippingEmissions = 26.88990 * difference;
   currentEnergyEmissions = 1049.59411 * difference;
   currentGlobalEmissions = 1296.64510 * difference;
+  if (useUserCarbon) {
+    currentUserEmissionsLbs = userCPerSecLbs * difference;
+    currentUserEmissionsMt = userCPerMsMt * difference;
+  }
   currentEmissionsTimer = setInterval(globalEmissions, 10);
 }
 
 function globalEmissions() {
   currentAviationEmissions = Math.round((currentAviationEmissions + 0.2990233) * 100) / 100;
-  var tempAviation = Math.round(currentAviationEmissions);
+  let tempAviation = Math.round(currentAviationEmissions);
   $("#current-aviation").text(tempAviation.toLocaleString());
 
   currentVehicleEmissions = Math.round((currentVehicleEmissions + 1.9025875) * 100) / 100;
-  var tempVehicles = Math.round(currentVehicleEmissions);
+  let tempVehicles = Math.round(currentVehicleEmissions);
   $("#current-vehicle").text(tempVehicles.toLocaleString());
 
   currentShippingEmissions = Math.round((currentShippingEmissions + 0.2688990) *100) / 100;
-  var tempShipping = Math.round(currentShippingEmissions);
+  let tempShipping = Math.round(currentShippingEmissions);
   $("#current-shipping").text(tempShipping.toLocaleString());
 
   currentEnergyEmissions = Math.round((currentEnergyEmissions + 10.4959411) * 100) / 100;
-  var tempEnergy = Math.round(currentEnergyEmissions);
+  let tempEnergy = Math.round(currentEnergyEmissions);
   $("#current-energy").text(tempEnergy.toLocaleString());
 
   currentGlobalEmissions = Math.round((currentGlobalEmissions + 12.9664510) * 100) / 100;
-  var tempGlobal = Math.round(currentGlobalEmissions);
+  let tempGlobal = Math.round(currentGlobalEmissions);
   $("#current-global").text(tempGlobal.toLocaleString());
+
+  if (useUserCarbon) {
+    currentUserEmissionsLbs = Math.round((currentUserEmissionsLbs + userCPerMsLbs) * 100) / 100;
+    let tempUserLbs = Math.round(currentUserEmissionsLbs);
+    $("#current-user-lbs").text(tempUserLbs.toLocaleString());
+
+    currentUserEmissionsMt = Math.round((currentUserEmissionsMt + userCPerMsMt) * 100) / 100;
+    let tempUserMt = Math.round(currentUserEmissionsMt);
+    $("#current-user-mt").text(tempUserMt.toLocaleString());
+  }
 }
 
 function loginFormHandler() {
@@ -321,26 +342,55 @@ function shippingFormSubmit(event) {
   }
 }
 
-function checkAccountForm() {
+async function checkAccountForm() {
   if (doneWithAccountForm === 4) {
     $('#accountFormComplete').removeClass('d-none');
     $('#accountForm').addClass('d-none');
-
+    const totalCarbonHome = await fetch('/api/carbon/electricity', {
+      method: 'post',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(userTotalCarbonHome),
+    });
+    const totalCarbonVehicle = await fetch('/api/carbon/vehicle', {
+      method: 'post',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(userTotalCarbonVehicle),
+    });
+    const totalCarbonVehicleCurrent = await fetch('/api/carbon/vehicle?make=' + userTotalCarbonCurrent.vehicle.make + 
+    '&model=' + userTotalCarbonCurrent.vehicle.model + '&year=' + userTotalCarbonCurrent.vehicle.year + '&dValue=' + 
+      userTotalCarbonCurrent.vehicle.dValue + '&dUnit=mi', {
+      method: 'get',
+      headers: {'content-type': 'application/json'},
+    });
+    let state = {};
+    state[userTotalCarbonCurrent.state.state] = 1;
+    console.log(state);
+    const totalCarbonHomeCurrent = await fetch('/api/carbon/electricity', {
+      method: 'post',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify([state]),
+    });
+    totalUserEmissionsLbs = totalCarbonHome.lbs + totalCarbonVehicle.lbs;
+    totalUserEmissionsMt = totalCarbonHome.mt + totalCarbonVehicles.mt;
+    userCPerSecLbs = (totalCarbonVehicleCurrent.carbon_lb + totalCarbonHomeCurrent.lbs) / 365 / 24 / 60 / 60;
+    userCPerSecMt = (totalCarbonVehicleCurrent.carbon_mt + totalCarbonHomeCurrent.mt) / 365 / 24 / 60 / 60;
+    userCPerMsLbs = (totalCarbonVehicleCurrent.carbon_lb + totalCarbonHomeCurrent.lbs) / 365 / 24 / 60 / 60 / 100;
+    userCPerMsMt = (totalCarbonVehicleCurrent.carbon_mt + totalCarbonHomeCurrent.mt) / 365 / 24 / 60 / 60 / 100;
   }
 }
 
 
 //Event Handlers
-$('#submit-login').on('click', (event) => {
-  event.preventDefault();
-  loginFormHandler();
-  $('#login-form').addClass('d-none')
-});
+  $('#submit-login').on('click', (event) => {
+    event.preventDefault();
+    loginFormHandler();
+    $('#login-form').addClass('d-none')
+  });
 
-$('#logout').on('click', (event) => {
-  event.preventDefault();
-  logout();
-});
+  $('#logout').on('click', (event) => {
+    event.preventDefault();
+    logout();
+  });
 
   $("#header").on("click", navCLicked);
 
@@ -493,7 +543,6 @@ $('#logout').on('click', (event) => {
     }
   });
 
-
   // Vehicle Make Selected Events
 
   $('#pastVehicleMake').on('change', (event) => {
@@ -583,3 +632,5 @@ $('#logout').on('click', (event) => {
   close2.addEventListener('click', () => {
     modal_container2.classList.remove('show');
   });
+
+  initializeGlobalEmissions();
