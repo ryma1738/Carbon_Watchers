@@ -88,7 +88,9 @@ background-color:rgba(0, 0, 0, 0);
 
 }
  End Of Join Form Styles */
-.landText {
+
+
+ .landText {
     padding-top: 50px;
     font-family: "Orbitron";
     font-size: 3vh;
@@ -129,7 +131,7 @@ background-color:rgba(0, 0, 0, 0);
     color: white;
 }
 /* Images Animation */
-.color img{
+/* .color img{
     border:none;
     border-radius: 10px;
     filter: grayscale(100%);
@@ -142,7 +144,8 @@ background-color:rgba(0, 0, 0, 0);
     -webkit-filter: grayscale(0%);
     filter: none;
     transition: 1s ease;
- }
+ } */
+
 .test {
     height: 550px;
 }
@@ -172,7 +175,8 @@ footer {
 .resources {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
+    align-items: center;
     margin-top: 50px;
     font-size: 2vh;
     font-family: "Orbitron";
@@ -187,14 +191,14 @@ footer {
 }
 /* Footer Icons Styling */
 .footer-icons {
-    margin-top: 30px;
+    /* margin-top: 30px; */
     margin-left: 30px;
 }
 /* Footer Resources */
 .footer-list, a:link {
     list-style: none;
     text-decoration: none;
-    font-size: 20px;    
+    font-size: 13px;    
 }
 /* Second Page Styles  */
 .background-2 {
