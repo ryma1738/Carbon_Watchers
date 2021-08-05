@@ -119,14 +119,14 @@ function globalEmissions() {
   $("#current-global").text(tempGlobal.toLocaleString());
 }
 
-async function loginFormHandler(event) {
+function loginFormHandler(event) {
   event.preventDefault();
   
   const email = document.querySelector('#email-login').value.trim();
   const password = document.querySelector('#password-login').value.trim();
   if (email && password) {
     console.log(email, password)
-    const response = await fetch('/api/users/login', {
+    const response = fetch('/api/users/login', {
       method: 'post',
       body: JSON.stringify({
         email,
@@ -136,7 +136,7 @@ async function loginFormHandler(event) {
     });
 
     if (response.ok) {
-      console.log('logged in!')
+      alert('logged in!');
       document.location.replace('/');
     } else {
       alert(response.statusText);
