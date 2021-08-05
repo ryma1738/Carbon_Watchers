@@ -3,6 +3,7 @@ const { getVehicleMake, getVehicleModel, vehicleEstimateRequest } = require('../
 const { flightEstimateRequest } = require('../../util/flight');
 const { shippingEstimateRequest } = require('../../util/shipping');
 const { electricityEstimateRequest } = require('../../util/electricity');
+const axios = require('axios')
 
 router.get('/vehicle', async function (req, res) {
     // queries: ?make=toyota&model=86&year=2017&dValue=100&dUnit=mi
@@ -64,3 +65,23 @@ router.post('/vehicles', async function (req, res) {
 });
 
 module.exports = router;
+
+router.get('/models', async function (req, res) {
+    // query = ?make=Toyota
+    let makeId = await getVehicleMake(req.query.make.toLowerCase());
+    const { data } = await axios.get('https://www.carboninterface.com/api/v1/vehicle_makes/' + makeId + "/vehicle_models", {
+      headers: {
+        'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
+        'content-type': 'application/json'
+      }
+    });
+    let models = [];
+    for (let i = 0; i < data.length; i++) {
+        let model = data[i].data.attributes.name;
+        if (models.indexOf(model) == -1) {
+            models.push(model);
+        } 
+    }
+    models = models.sort();
+    res.json(models);
+});
