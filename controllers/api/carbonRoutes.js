@@ -62,16 +62,15 @@ router.get('/shipping', async function (req, res) {
 
 router.post('/electricity', async function (req, res) {
     // body = [{"ut": 5}, {"ca": 2}]
-
     let estimate = await electricityEstimateRequest(req.body);
     if (estimate.error) {
         res.status(422).json({message: estimate.error});
     } else {
-        res.status(200).json({lbs: estimate.totalCarbon.lbs, mt: estimate.totalCarbon.mt})
+        res.status(200).json(estimate);
     }
 });
 
-router.post('/vehicles', async function (req, res) {
+router.post('/vehicle', async function (req, res) {
     //body = [{make: toyota, model: 86, year: 2017, dValue: 100, dUnit: mi}, {...}]
     let totalCarbonLbs = 0;
     let totalCarbonMt = 0;

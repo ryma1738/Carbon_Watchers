@@ -21,10 +21,10 @@ async function electricityEstimateRequest(itemArray) {
         carbonLbs = carbonLbs + carbon.lbs;
         carbonMt = carbonMt + carbon.mt;
     }
-    return {totalCarbon: {
+    return {
         lbs: carbonLbs,
         mt: carbonMt
-    }};
+    };
 }
 
 async function electricityCall(kwh, state) {

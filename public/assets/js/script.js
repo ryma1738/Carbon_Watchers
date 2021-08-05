@@ -1,11 +1,8 @@
-const aviationGlobalEmissions = 943000000;  //943,000,000 Metric Tons, 29.90233 Metric Tons per Second, 0.2990233 every 10ms
-const vehicleGlobalEmissions = 6000000000;   //6,000,000,000 Metric Tons, 190.25875 Metric Tons per Second, 1.9025875 every 10ms
-const shippingGlobalEmissions = 848000000;   //848,000,000 Metric Tons, 26.88990 Metric tons per Second, 0.2688990 every 10ms
-const energyGenerationGlobalEmissions = 33100000000; //33,100,000,000 Metric Tons, 1,049.59411 Metric Tons per Second, 10.4959411 every 10ms
-const totalGlobalEmissions = 40891000000 ; //40,891,000,000 Metric Tons, 1,296.64510 Metric Tons per Second, 12.9664510 every 10ms
-let totalUserEmissionsLbs = 0; //Total Emissions of user that is logged in, in pounds.
-let totalUserEmissionsMt = 0; //Total Emissions of user in Metric tons
-
+// const aviationGlobalEmissions = 943000000;  //943,000,000 Metric Tons, 29.90233 Metric Tons per Second, 0.2990233 every 10ms
+// const vehicleGlobalEmissions = 6000000000;   //6,000,000,000 Metric Tons, 190.25875 Metric Tons per Second, 1.9025875 every 10ms
+// const shippingGlobalEmissions = 848000000;   //848,000,000 Metric Tons, 26.88990 Metric tons per Second, 0.2688990 every 10ms
+// const energyGenerationGlobalEmissions = 33100000000; //33,100,000,000 Metric Tons, 1,049.59411 Metric Tons per Second, 10.4959411 every 10ms
+// const totalGlobalEmissions = 40891000000 ; //40,891,000,000 Metric Tons, 1,296.64510 Metric Tons per Second, 12.9664510 every 10ms
 let currentAviationEmissions = 0;
 let currentVehicleEmissions = 0;
 let currentShippingEmissions = 0;
@@ -36,34 +33,18 @@ function navCLicked(event) {
       displayNoneAll();
       initializeGlobalEmissions();
       $("#global-carbon-emissions-page").removeClass("d-none");
-      $("#footer").addClass("");
       break;
     case "travel-estimates":
       displayNoneAll();
-      
       $("#travel-estimates-page").removeClass("d-none");
-      $("#footer").addClass("");
       break;
     case "shipping":
       displayNoneAll();
       $("#shipping-page").removeClass("d-none");
-      $("#footer").addClass("");
-      break;
-    case "global-carbon-emissions":
-      displayNoneAll();
-      initializeGlobalEmissions();
-      $("#global-carbon-emissions-page").removeClass("d-none");
-      $("#footer").addClass("");
-      break;
-    case "climate-change":
-      displayNoneAll();
-      $("#climate-change-page").removeClass("d-none");
-      $("#footer").addClass("");
       break;
     case "account":
       displayNoneAll();
       $("#account-page").removeClass("d-none");
-      $("#footer").addClass("");
       break;
     case "login":
       displayNoneAll();
@@ -73,12 +54,10 @@ function navCLicked(event) {
     case "signup":
       displayNoneAll();
       $("#signup-form").removeClass("d-none");
-      $("#footer").addClass("");
       break;
     // case "logout":
     //   displayNoneAll();
     //   // $("#about-us-page").removeClass("d-none");
-    //   // $("#footer").addClass("");
     //   break;
   }
 }
@@ -88,8 +67,6 @@ function displayNoneAll() {
   $("#travel-estimates-page").addClass("d-none");
   $("#shipping-page").addClass("d-none");
   $("#global-carbon-emissions-page").addClass("d-none");
-  $("#climate-change-page").addClass("d-none");
-  $("#about-us-page").addClass("d-none");
   $('#login-form').addClass('d-none');
   $('#signup-form').addClass('d-none');
   $('#account-page').addClass('d-none');
@@ -106,8 +83,8 @@ function initializeGlobalEmissions() {
   currentEnergyEmissions = 1049.59411 * difference;
   currentGlobalEmissions = 1296.64510 * difference;
   if (useUserCarbon) {
-    currentUserEmissionsLbs = userCPerSecLbs * difference;
-    currentUserEmissionsMt = userCPerMsMt * difference;
+    currentUserEmissionsLbs = currentUserEmissionsLbs + (userCPerSecLbs * difference);
+    currentUserEmissionsMt = currentUserEmissionsMt + (userCPerSecMt * difference);
   }
   currentEmissionsTimer = setInterval(globalEmissions, 10);
 }
@@ -134,12 +111,12 @@ function globalEmissions() {
   $("#current-global").text(tempGlobal.toLocaleString());
 
   if (useUserCarbon) {
-    currentUserEmissionsLbs = Math.round((currentUserEmissionsLbs + userCPerMsLbs) * 100) / 100;
-    let tempUserLbs = Math.round(currentUserEmissionsLbs);
+    currentUserEmissionsLbs = currentUserEmissionsLbs + userCPerMsLbs;
+    let tempUserLbs = Math.round(currentUserEmissionsLbs * 1000) / 1000;
     $("#current-user-lbs").text(tempUserLbs.toLocaleString());
 
-    currentUserEmissionsMt = Math.round((currentUserEmissionsMt + userCPerMsMt) * 100) / 100;
-    let tempUserMt = Math.round(currentUserEmissionsMt);
+    currentUserEmissionsMt = currentUserEmissionsMt + userCPerMsMt ;
+    let tempUserMt = Math.round(currentUserEmissionsMt * 1000) / 1000;
     $("#current-user-mt").text(tempUserMt.toLocaleString());
   }
 }
@@ -346,36 +323,44 @@ async function checkAccountForm() {
   if (doneWithAccountForm === 4) {
     $('#accountFormComplete').removeClass('d-none');
     $('#accountForm').addClass('d-none');
-    const totalCarbonHome = await fetch('/api/carbon/electricity', {
+    let totalCarbonHome = await fetch('/api/carbon/electricity', {
       method: 'post',
       headers: {'content-type': 'application/json'},
       body: JSON.stringify(userTotalCarbonHome),
     });
-    const totalCarbonVehicle = await fetch('/api/carbon/vehicle', {
+    let totalCarbonVehicle = await fetch('/api/carbon/vehicle', {
       method: 'post',
       headers: {'content-type': 'application/json'},
       body: JSON.stringify(userTotalCarbonVehicle),
     });
-    const totalCarbonVehicleCurrent = await fetch('/api/carbon/vehicle?make=' + userTotalCarbonCurrent.vehicle.make + 
+    let totalCarbonVehicleCurrent = await fetch('/api/carbon/vehicle?make=' + userTotalCarbonCurrent.vehicle.make + 
     '&model=' + userTotalCarbonCurrent.vehicle.model + '&year=' + userTotalCarbonCurrent.vehicle.year + '&dValue=' + 
       userTotalCarbonCurrent.vehicle.dValue + '&dUnit=mi', {
       method: 'get',
       headers: {'content-type': 'application/json'},
     });
     let state = {};
-    state[userTotalCarbonCurrent.state.state] = 1;
-    console.log(state);
-    const totalCarbonHomeCurrent = await fetch('/api/carbon/electricity', {
+    state[userTotalCarbonCurrent.state] = 1;
+    let totalCarbonHomeCurrent = await fetch('/api/carbon/electricity', {
       method: 'post',
       headers: {'content-type': 'application/json'},
       body: JSON.stringify([state]),
     });
-    totalUserEmissionsLbs = totalCarbonHome.lbs + totalCarbonVehicle.lbs;
-    totalUserEmissionsMt = totalCarbonHome.mt + totalCarbonVehicles.mt;
+    totalCarbonHome = await totalCarbonHome.json().then((data) => data);
+    totalCarbonVehicle = await totalCarbonVehicle.json().then((data) => data);
+    totalCarbonVehicleCurrent = await totalCarbonVehicleCurrent.json().then((data) => data);
+    totalCarbonHomeCurrent = await totalCarbonHomeCurrent.json().then((data) => data);
+
+    currentUserEmissionsLbs = totalCarbonHome.lbs + totalCarbonVehicle.lbs;
+    currentUserEmissionsMt = totalCarbonHome.mt + totalCarbonVehicle.mt;
     userCPerSecLbs = (totalCarbonVehicleCurrent.carbon_lb + totalCarbonHomeCurrent.lbs) / 365 / 24 / 60 / 60;
     userCPerSecMt = (totalCarbonVehicleCurrent.carbon_mt + totalCarbonHomeCurrent.mt) / 365 / 24 / 60 / 60;
     userCPerMsLbs = (totalCarbonVehicleCurrent.carbon_lb + totalCarbonHomeCurrent.lbs) / 365 / 24 / 60 / 60 / 100;
     userCPerMsMt = (totalCarbonVehicleCurrent.carbon_mt + totalCarbonHomeCurrent.mt) / 365 / 24 / 60 / 60 / 100;
+    useUserCarbon = true;
+    $('#user-unit-lbs').removeClass('d-none');
+    $('#user-unit-mt').removeClass('d-none');
+    initializeGlobalEmissions();
   }
 }
 
