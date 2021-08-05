@@ -153,22 +153,18 @@ function loginFormHandler() {
   const password = document.querySelector('#password-signup').value.trim();
 
   if (username && email && password) {
-    $.ajax('/api/users/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: {
-        username: username,
+    fetch('/api/users/signup', {
+      method: "post",
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
         email: email,
         password: password
-      },
-      success: () => {
-        console.log('Account Created!')
-        document.location.replace('/');
-      },
-      error: (err) => {
-        alert(err);
-      }
-    });
+      }),
+    }).then((response) => response.json()).then((data) => {
+      console.log(data)
+    }) 
   }
   
 }
@@ -202,11 +198,13 @@ function addPersonalTotalEmissions() {
 $('#submit-login').on('click', (event) => {
   event.preventDefault();
   loginFormHandler();
+  $('#login-form').addClass('d-none')
 });
 
 $('#submit-signup').on('click', (event) => {
   event.preventDefault();
   signupFormHandler();
+  $('#signup-form').addClass('d-none')
 });
 
 $('#logout').on('click', (event) => {
