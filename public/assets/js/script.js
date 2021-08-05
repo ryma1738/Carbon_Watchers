@@ -130,20 +130,18 @@ function loginFormHandler() {
   const password = document.querySelector('#password-login').value.trim();
   if (email && password) {
     console.log(email, password)
-    $.post('/api/users/login', {
-      headers: { 'Content-Type': 'application/json' },
-      data: {
+    fetch('/api/users/login', {
+      method: "post",
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
         email: email,
         password: password
-      },
-      success: () => {
-        console.log('logged in!')
-        document.location.replace('/');
-      },
-      error: (err) => {
-        alert(err);
-      }
-    });
+      }),
+    }).then((response) => response.json()).then((data) => {
+      console.log(data)
+    }) 
   }
 }
 
@@ -255,7 +253,15 @@ $('#logout').on('click', (event) => {
 
   $('#pastVehicleNext').on('click', (event) => {
     event.preventDefault();
+    let make = $('#pastVehicleMake').val();
+    let model
 
+    if (make && model && year && miles) {
+      state = state.toLowerCase()
+      let temp = {};
+      temp[state] = year;
+      userTotalCarbonHome.push(temp);
+    }
   });
 
 

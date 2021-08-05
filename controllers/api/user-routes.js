@@ -50,8 +50,7 @@ router.post('/signup', (req, res) => {
         res.json({ user: dbUserData, message: 'You are now logged in!' });
         
       });
-    }) 
-    .catch(err => {
+    }).catch(err => {
       console.log(err);
       res.status(500).json(err);
     });
