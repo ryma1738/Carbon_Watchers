@@ -27,11 +27,13 @@ function navCLicked(event) {
   switch (targetId){
     case "title":
       displayNoneAll();
-      $("#landing-page").removeClass("d-none");
+      initializeGlobalEmissions();
+      $("#global-carbon-emissions-page").removeClass("d-none");
       $("#footer").addClass("");
       break;
     case "travel-estimates":
       displayNoneAll();
+      
       $("#travel-estimates-page").removeClass("d-none");
       $("#footer").addClass("");
       break;
@@ -75,7 +77,7 @@ function navCLicked(event) {
 }
 
 function displayNoneAll() {
-  $("#landing-page").addClass("d-none");
+  $("#global-carbon-emissions-page").addClass("d-none");
   $("#travel-estimates-page").addClass("d-none");
   $("#shipping-page").addClass("d-none");
   $("#global-carbon-emissions-page").addClass("d-none");
