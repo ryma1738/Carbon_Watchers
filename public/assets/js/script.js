@@ -144,6 +144,48 @@ function loginFormHandler() {
   }
 }
 
+ function signupFormHandler(event) {
+ 
+
+  const username = document.querySelector('#username-signup').value.trim();
+  const email = document.querySelector('#email-signup').value.trim();
+  const password = document.querySelector('#password-signup').value.trim();
+
+  if (username && email && password) {
+    fetch('/api/users/signup', {
+      method: "post",
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
+    }).then((response) => response.json()).then((data) => {
+      console.log(data)
+    }) 
+  }
+  
+}
+
+function logout(event) {
+  $.ajax('/api/users/logout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    
+    success: () => {
+      console.log('logged out!')
+      document.location.replace('/');
+    },
+    error: (err) => {
+      alert(err);
+    }
+  });
+}
+
+function checkAccountForm() {
+  if (doneWithAccountForm === 4) {
+    $('#accountFinalSubmit').removeClass('d-none')
 function vehicleFormSubmit(event) {
   event.preventDefault();
   let make = $('#make').val();
@@ -230,6 +272,22 @@ function shippingFormSubmit(event) {
 }
 
 
+$('#submit-login').on('click', (event) => {
+  event.preventDefault();
+  loginFormHandler();
+  $('#login-form').addClass('d-none')
+});
+
+$('#submit-signup').on('click', (event) => {
+  event.preventDefault();
+  signupFormHandler();
+  $('#signup-form').addClass('d-none')
+});
+
+$('#logout').on('click', (event) => {
+  event.preventDefault();
+  logout();
+});
 function checkAccountForm() {
   if (doneWithAccountForm === 4) {
     $('#accountFormComplete').removeClass('d-none');
