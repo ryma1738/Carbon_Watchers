@@ -1,4 +1,3 @@
-
 const aviationGlobalEmissions = 943000000;  //943,000,000 Metric Tons, 29.90233 Metric Tons per Second, 0.2990233 every 10ms
 const vehicleGlobalEmissions = 6000000000;   //6,000,000,000 Metric Tons, 190.25875 Metric Tons per Second, 1.9025875 every 10ms
 const shippingGlobalEmissions = 848000000;   //848,000,000 Metric Tons, 26.88990 Metric tons per Second, 0.2688990 every 10ms
@@ -10,16 +9,16 @@ var currentShippingEmissions = 0;
 var currentEnergyEmissions = 0;
 var currentGlobalEmissions = 0;
 var currentEmissionsTimer = null;
+
 var userTotalCarbonHome = [];
 var userTotalCarbonVehicle = [];
+var userTotalCarbonCurrent = {};
 var doneWithAccountForm = 0;
 
 // const express = require('express');
 
 
 // let newsKey = '826c8d002dc24d088e02c40677ecd5e5'
-
-
 
 function navCLicked(event) {
     // Handles user clicks on a nav bar button
@@ -122,8 +121,6 @@ function globalEmissions() {
   $("#current-global").text(tempGlobal.toLocaleString());
 }
 
-
-
 function loginFormHandler() {
   console.log('started')
   const email = document.querySelector('#email-login').value.trim();
@@ -145,25 +142,103 @@ function loginFormHandler() {
   }
 }
 
-function checkAccountForm() {
-  if (doneWithAccountForm === 4) {
-    $('#accountFinalSubmit').removeClass('d-none')
+function vehicleFormSubmit(event) {
+  event.preventDefault();
+  let make = $('#make').val();
+  let model = $('#model').val();
+  let year = $('#year').val();
+  let dValue = $('#distance-value').val();
+  let dUnit = $('#distance-unit').val();
+  if (make && model && year && dValue && dUnit) {
+    $("#results").html("<p class='px-2 mt-2 text-center' fw-bold>Loading your Results <div class='loader pb-2 my-auto mx-auto'</div></p>");
+    $.ajax({
+      url: '/api/carbon/vehicle?make=' + make + '&model=' + model + '&year=' + year+ '&dValue=' + dValue + '&dUnit=' + dUnit,
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+      success: (data) => {
+        let carbonLbs = data.carbon_lb;
+        let carbonMt = data.carbon_mt;
+        if (carbonMt > 5) {
+          $("#results")
+          .html("<p class='py-2 px-2 text-center'>Your total carbon emissions for your <span class='main-color fw-bold'>" + make + " " + model + " " + year + "</span> after driving <span class='main-color fw-bold'>" + dValue + " " + dUnit.toUpperCase() + "</span> would be: <span class='main-color fw-bold'>" + carbonLbs + " Pounds</span> of CO2 released in to the atmosphere or <span class='main-color fw-bold'>" + carbonMt + " Metric Tons</span> of CO2.</p>" );
+        } else {
+          $("#results")
+          .html("<p class='py-2 px-2 text-center'>Your total carbon emissions for your <span class='main-color fw-bold'>" + make + " " + model + " " + year + "</span> after driving <span class='main-color fw-bold'>" + dValue + " " + dUnit.toUpperCase() + "</span> would be: <span class='main-color fw-bold'>" + carbonLbs + " Pounds</span> of CO2 released in to the atmosphere. </p>" );
+        }
+      },
+      error: (jxr, stat, err) => {
+        console.log(err);
+        if (err === 'Unprocessable Entity') {
+          $("#results").html("<p class='text-center px-2 py-3'>Vehicle model and/or year not found. Please enter a valid vehicle model and year!</p>");
+        } else {
+          alert("Their was a network error while trying to get your request. Please try again.");
+        $("#results").html(" ");
+        }
+      }
+    })
+  } else {
+    alert('You must enter in all information before submitting!');
   }
 }
 
-function addPersonalTotalEmissions() {
-
+function flightFormSubmit(event) {
+  event.preventDefault();
+  let depart = $('#d-airport-code').val();
+  let arrival = $('#a-airport-code').val();
+  if ($("#return-trip").is(':checked')) {
+    $("#return-trip").attr('value', true);
+  }
+  else {
+    $("#return-trip").attr('value', false);
+  }
+  let roundTrip = $('#return-trip').val();
+  if (depart && arrival) {
+    depart = depart.toLowerCase();
+    arrival = arrival.toLowerCase();
+    $("#results")
+    .html("<p class='px-2 mt-2 text-center' fw-bold>Loading your Results <div class='loader pb-2 my-auto mx-auto'</div></p>");
+    $.ajax({
+      url: '/api/carbon/flight?arrival=' + arrival + '&depart=' + depart + '&roundTrip=' + roundTrip,
+      method: 'GET',
+      headers: {'Content-Type': 'application/json'},
+      success: (data) => {
+        let perPersonLbs = data[0].carbon_lb;
+        let distance = data[0].distance_value;
+        let flightCarbonLbs = data[1].carbon_lb;
+        let flightCarbonMt = data[1].carbon_mt;
+        $("#results")
+        .html("<p class='py-2 px-2 text-center'>Your total carbon emissions for your flight are <span class='main-color fw-bold'>" + flightCarbonLbs + " Pounds or " + flightCarbonMt + " Metric Tons " + "</span>of CO2 put in to the atmosphere with a total distance traveled of: <span class='main-color fw-bold'>" + distance + " Miles" +"</span>. The carbon emissions per person (on an average flight) are:  <span class='main-color fw-bold'>" + perPersonLbs + " Pounds</span> of CO2 released per person in to the atmosphere during the flight. </p>" );
+      },
+      error: (jxr, stat, err) => {
+        if (err === 'Unprocessable Entity') {
+          $("#results").html("<p class='text-center px-2 py-3'>Airport ID not found. Please use the airports 3 letter IATA code.</p>");
+        } else {
+          alert("Their was a network error while trying to get your request. Please try again.");
+        $("#results").html(" ");
+        }
+      }
+    });
+  } else {
+    alert('You must enter in all information before submitting!');
+  }
 }
 
 
-$('#submit-login').on('click', (event) => {
-  event.preventDefault();
-  loginFormHandler();
-});
+function checkAccountForm() {
+  if (doneWithAccountForm === 4) {
+    $('#accountFormComplete').removeClass('d-none');
+    $('#accountForm').addClass('d-none');
 
+  }
+}
 
 //Event Handlers
   $("#header").on("click", navCLicked);
+
+  $('#submit-login').on('click', (event) => {
+    event.preventDefault();
+    loginFormHandler();
+  });
 
 // Account Form Events
   $("#pastStateNext").on('click', (event) => {
@@ -177,7 +252,6 @@ $('#submit-login').on('click', (event) => {
       userTotalCarbonHome.push(temp);
       $('#pastState').val('');
       $('#pastStateYears').val('');
-      console.log(userTotalCarbonHome);
     } else {
       alert('You must enter in a valid state and year!');
     }
@@ -185,10 +259,10 @@ $('#submit-login').on('click', (event) => {
 
   $('#pastStateSubmit').on('click', (event) => {
     event.preventDefault();
-    let state = $('#pastState').val()
+    let state = $('#pastState').val();
     let year = parseInt($('#pastStateYears').val());
     if (state && year) {
-      state = state.toLowerCase()
+      state = state.toLowerCase();
       let temp = {};
       temp[state] = year;
       userTotalCarbonHome.push(temp);
@@ -196,18 +270,105 @@ $('#submit-login').on('click', (event) => {
     $('#pastHomeForm').addClass('d-none');
     $('#pastHomeCheck').removeClass('d-none');
     doneWithAccountForm ++;
+    checkAccountForm();
   });
 
   $('#pastVehicleNext').on('click', (event) => {
     event.preventDefault();
     let make = $('#pastVehicleMake').val();
-    let model
-
+    let model = $('#pastVehicleModel').val();
+    let year = $('#pastVehicleYear').val();
+    let miles = $('#pastVehicleMiles').val();
     if (make && model && year && miles) {
-      state = state.toLowerCase()
+      let temp = {
+        make: make,
+        model: model,
+        year: year,
+        dValue: miles,
+        dUnit: 'mi'
+      };
+      userTotalCarbonVehicle.push(temp);
+      $('#pastVehicleMake').val('Make');
+      $('#pastVehicleModel').val('');
+      $('#pastVehicleYear').val('');
+      $('#pastVehicleMiles').val('');
+    } else {
+      alert('You must fill out all information about your vehicle before submitting!')
+    }
+  });
+
+  $('#pastVehicleSubmit').on('click', (event) => {
+    event.preventDefault();
+    let make = $('#pastVehicleMake').val();
+    let model = $('#pastVehicleModel').val();
+    let year = $('#pastVehicleYear').val();
+    let miles = $('#pastVehicleMiles').val();
+    if (make && model && year && miles) {
+      let temp = {
+        make: make,
+        model: model,
+        year: year,
+        dValue: miles,
+        dUnit: 'mi'
+      };
+      userTotalCarbonVehicle.push(temp);
+    }
+    $('#pastVehicleForm').addClass('d-none');
+    $('#pastVehicleCheck').removeClass('d-none')
+    doneWithAccountForm ++;
+    checkAccountForm();
+  });
+
+  $("#stateSubmit").on('click', (event) => {
+    event.preventDefault();
+    let state = $('#state').val();
+    let year = parseInt($('#stateYears').val())
+    if (state && year) {
+      state = state.toLowerCase();
       let temp = {};
       temp[state] = year;
       userTotalCarbonHome.push(temp);
+      userTotalCarbonCurrent.state = state;
+      $('#currentHomeForm').addClass('d-none');
+      $('#currentHomeCheck').removeClass('d-none');
+      doneWithAccountForm ++;
+      checkAccountForm();
+    } else {
+      alert('You must enter in a valid state and year!');
+    }
+  });
+
+  $('#vehicleSubmit').on('click', (event) => {
+    event.preventDefault();
+    let make = $('#vehicleMake').val();
+    let model = $('#vehicleModel').val();
+    let year = $('#vehicleYear').val();
+    let miles = $('#vehicleMiles').val();
+    let yearlyMiles = $('#vehicleMilesYearly').val();
+    if (make && model && year && miles) {
+      let temp = {
+        make: make,
+        model: model,
+        year: year,
+        dValue: miles,
+        dUnit: 'mi'
+      };
+      let currentTemp = {
+        make: make,
+        model: model,
+        year: year,
+        dValue: yearlyMiles,
+        dUnit: 'mi'
+      }
+      userTotalCarbonCurrent.vehicle = currentTemp;
+      userTotalCarbonVehicle.push(temp);
+      $('#currentVehicleForm').addClass('d-none');
+      $('#currentVehicleCheck').removeClass('d-none')
+      doneWithAccountForm ++;
+      checkAccountForm();
+
+    } else {
+      alert('You must fill out all information about your vehicle before submitting!')
     }
   });
 
@@ -286,14 +447,9 @@ $('#submit-login').on('click', (event) => {
     $("#img-vehicles").addClass("d-none");
     $("#img-flight").removeClass("d-none");
   });
-  // $("#vehicle-form").on("submit", getVehicleMake);
-  // $("#flight-form").on("submit", flightFormSubmit);
+  $("#vehicle-form").on("submit", vehicleFormSubmit);
+  $("#flight-form").on("submit", flightFormSubmit);
   // $("#shipping-form").on("submit", shippingFormSubmit);
-
-
-
-
-
 
 // Modal 
   var open2 = document.getElementById('open2');
