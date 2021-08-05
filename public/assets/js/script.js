@@ -225,6 +225,10 @@ function flightFormSubmit(event) {
   }
 }
 
+function shippingFormSubmit(event) {
+
+}
+
 
 function checkAccountForm() {
   if (doneWithAccountForm === 4) {
