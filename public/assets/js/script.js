@@ -183,9 +183,7 @@ function logout(event) {
   });
 }
 
-function checkAccountForm() {
-  if (doneWithAccountForm === 4) {
-    $('#accountFinalSubmit').removeClass('d-none')
+
 function vehicleFormSubmit(event) {
   event.preventDefault();
   let make = $('#make').val();
@@ -268,22 +266,8 @@ function flightFormSubmit(event) {
 }
 
 
-$('#submit-login').on('click', (event) => {
-  event.preventDefault();
-  loginFormHandler();
-  $('#login-form').addClass('d-none')
-});
 
-$('#submit-signup').on('click', (event) => {
-  event.preventDefault();
-  signupFormHandler();
-  $('#signup-form').addClass('d-none')
-});
 
-$('#logout').on('click', (event) => {
-  event.preventDefault();
-  logout();
-});
 function checkAccountForm() {
   if (doneWithAccountForm === 4) {
     $('#accountFormComplete').removeClass('d-none');
@@ -298,6 +282,18 @@ function checkAccountForm() {
   $('#submit-login').on('click', (event) => {
     event.preventDefault();
     loginFormHandler();
+    $('#login-form').addClass('d-none')
+  });
+  
+  $('#submit-signup').on('click', (event) => {
+    event.preventDefault();
+    signupFormHandler();
+    $('#signup-form').addClass('d-none')
+  });
+  
+  $('#logout').on('click', (event) => {
+    event.preventDefault();
+    logout();
   });
 
 // Account Form Events
@@ -522,18 +518,3 @@ function checkAccountForm() {
   close2.addEventListener('click', () => {
     modal_container2.classList.remove('show');
   });
-
-  // var login = document.getElementById('login');
-  // var loginform = document.getElementById('login-form');
-  // var loginclose = document.getElementById('closelogin');
-
-  // login.addEventListener('click', () => {
-  //   console.log('click');
-  //   loginform.classList.remove('d-none');
-  // });
-  // loginclose.addEventListener('click', () => {
-  //   loginform.classList.add('d-none');
-  // });
-
-
-
