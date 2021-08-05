@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 async function shippingEstimateRequest(weight, distance, distanceUnit, weightUnit, method) {
+    try {
         const { data } = await axios({
             url: "https://www.carboninterface.com/api/v1/estimates",
             method: "post",
@@ -18,6 +19,9 @@ async function shippingEstimateRequest(weight, distance, distanceUnit, weightUni
             }
         });
         return data.data.attributes;
+    } catch (err) {
+        return {error: err};
+    }     
 };
 
 module.exports = {

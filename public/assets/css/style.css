@@ -262,11 +262,13 @@ footer {
 .form-styles input:focus {
     background-color: black ;
     border: 4px solid var(--secondary-color);
+    color: var(--secondary-color);
 }
 
 .form-styles select:focus {
     background-color: var(--third-color);
     border: 4px solid var(--secondary-color);
+    color: var(--secondary-color);
 }
 
 .form-styles input.form-check-input:active {
