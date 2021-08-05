@@ -130,12 +130,11 @@ function loginFormHandler() {
   const password = document.querySelector('#password-login').value.trim();
   if (email && password) {
     console.log(email, password)
-    $.ajax('/api/users/login', {
-      method: 'POST',
+    $.post('/api/users/login', {
       headers: { 'Content-Type': 'application/json' },
       data: {
-        email,
-        password
+        email: email,
+        password: password
       },
       success: () => {
         console.log('logged in!')
@@ -160,9 +159,9 @@ function loginFormHandler() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       data: {
-        username,
-        email,
-        password
+        username: username,
+        email: email,
+        password: password
       },
       success: () => {
         console.log('Account Created!')
