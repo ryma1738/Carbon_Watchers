@@ -9,15 +9,15 @@ router.get('/vehicle', async function (req, res) {
     // queries: ?make=toyota&model=86&year=2017&dValue=100&dUnit=mi
    let makeId = await getVehicleMake(req.query.make.toLowerCase());
     if (!makeId) {
-        res.json({message: "Vehicle make not found. Please enter a valid vehicle make!"})
+        res.status(400).json({message: "Vehicle make not found. Please enter a valid vehicle make!"})
     } else {
         let modelId = await getVehicleModel(makeId, req.query.model.toLowerCase(), parseInt(req.query.year));
         if (!modelId) {
-            res.json({message: "Vehicle model and/or year not found. Please enter a valid vehicle model and year!"})
+            res.status(422).json({message: "Vehicle model and/or year not found. Please enter a valid vehicle model and year!"})
         } else {
             let carbonData = await vehicleEstimateRequest(modelId, req.query.dValue, req.query.dUnit);
             if (carbonData.error) {
-                res.json({error: carbonData.error});
+                res.status(500).json({error: carbonData.error});
             } else {
                 res.json(carbonData);
             }
@@ -26,8 +26,9 @@ router.get('/vehicle', async function (req, res) {
 });
 
 router.get('/flight', async function (req, res) {
-    // queries: ?arrival=slc&depart=den&roundTrip=true&passCount=100
+    // queries: ?arrival=slc&depart=den&roundTrip=true
     let legs = [];
+    let estimate = [];
     if (req.query.roundTrip) {
         legs = [
             {"departure_airport": req.query.depart, "destination_airport": req.query.arrival},
@@ -38,8 +39,15 @@ router.get('/flight', async function (req, res) {
             {"departure_airport": req.query.depart, "destination_airport": req.query.arrival}
         ];
     }
-    let flightInfo = await flightEstimateRequest(legs, req.query.passCount);
-    res.json(flightInfo);
+    let flightInfoPerPerson = await flightEstimateRequest(legs, 1);
+    if (flightInfoPerPerson.error) {
+        res.status(422).json(flightInfoPerPerson.error);
+    } else {1
+        estimate.push(flightInfoPerPerson);
+        let flightInfo = await flightEstimateRequest(legs, 100);
+        estimate.push(flightInfo);
+        res.json(estimate);
+    }
 });
 
 router.get('/shipping', async function (req, res) {
