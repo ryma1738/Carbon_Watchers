@@ -130,21 +130,18 @@ function loginFormHandler() {
   const password = document.querySelector('#password-login').value.trim();
   if (email && password) {
     console.log(email, password)
-    $.ajax('/api/users/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: {
-        email,
-        password
+    fetch('/api/users/login', {
+      method: "post",
+      headers: {
+        'content-type': 'application/json'
       },
-      success: () => {
-        console.log('logged in!')
-        document.location.replace('/');
-      },
-      error: (err) => {
-        alert(err);
-      }
-    });
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
+    }).then((response) => response.json()).then((data) => {
+      console.log(data)
+    }) 
   }
 }
 
@@ -159,7 +156,7 @@ function addPersonalTotalEmissions() {
 }
 
 
-$('#submit-login').on('submit', (event) => {
+$('#submit-login').on('click', (event) => {
   event.preventDefault();
   loginFormHandler();
 });
@@ -203,7 +200,15 @@ $('#submit-login').on('submit', (event) => {
 
   $('#pastVehicleNext').on('click', (event) => {
     event.preventDefault();
+    let make = $('#pastVehicleMake').val();
+    let model
 
+    if (make && model && year && miles) {
+      state = state.toLowerCase()
+      let temp = {};
+      temp[state] = year;
+      userTotalCarbonHome.push(temp);
+    }
   });
 
 
