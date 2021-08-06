@@ -366,34 +366,29 @@ async function checkAccountForm() {
 
 
 //Event Handlers
-  $('#submit-login').on('click', (event) => {
-    event.preventDefault();
-    loginFormHandler();
-    $('#login-form').addClass('d-none')
-  });
-
-  $('#logout').on('click', (event) => {
-    event.preventDefault();
-    logout();
-  });
-
+ 
   $("#header").on("click", navCLicked);
 
   $('#submit-login').on('click', (event) => {
     event.preventDefault();
     loginFormHandler();
-    $('#login-form').addClass('d-none')
+    $('#login-form').addClass('d-none');
+    $('#global-carbon-emissions-page').removeClass('d-none');
   });
   
   $('#submit-signup').on('click', (event) => {
     event.preventDefault();
     signupFormHandler();
-    $('#signup-form').addClass('d-none')
+    $('#signup-form').addClass('d-none');
+    $('#global-carbon-emissions-page').removeClass('d-none');
+
   });
   
   $('#logout').on('click', (event) => {
     event.preventDefault();
     logout();
+    $('#global-carbon-emissions-page').removeClass('d-none')
+
   });
 
 // Account Form Events
