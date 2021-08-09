@@ -1,8 +1,7 @@
 const router = require('express').Router();
-const {User} =require('../../models');
+const {User, userCarbon} = require('../../models');
 
 router.post('/signup', (req, res) => {
-  console.log(req.body);
     User.create({
       username: req.body.username,
       email: req.body.email,
@@ -14,7 +13,7 @@ router.post('/signup', (req, res) => {
           req.session.username = dbUserData.username;
           req.session.loggedIn = true;
     
-          res.json(dbUserData);
+          res.json({id: dbUserData.id});
         });
       })
       .catch(err => {
@@ -24,7 +23,6 @@ router.post('/signup', (req, res) => {
   });
 
   router.post('/login', (req, res) => {
-  console.log(req.body);
     User.findOne({
       where: {
         email: req.body.email
@@ -47,8 +45,7 @@ router.post('/signup', (req, res) => {
         req.session.username = dbUserData.userName;
         req.session.loggedIn = true;
     
-        res.json({ user: dbUserData, message: 'You are now logged in!' });
-        
+        res.json({ id: dbUserData.id});
       });
     }).catch(err => {
       console.log(err);
@@ -66,6 +63,45 @@ router.post('/signup', (req, res) => {
     else {
       res.status(404).end();
     }
+  });
+
+  router.get('/carbon', (req, res) => {
+    // query: ?id=1
+    userCarbon.findOne({
+      where: {
+        user_id: req.query.id
+      }
+    }).then(dbCarbonData => {
+      if (!dbCarbonData) {
+        res.status(200).json({message: 'No User Carbon Data found! Please fill out the Carbon Foot Print form found on the account page!'})
+      } else {
+        res.status(200).json(dbCarbonData);
+      }
+    }).catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+  });
+
+  router.post('/carbon', (req, res) => {
+    userCarbon.create({
+      totalCarbonLbs: req.body.totalLbs,
+      totalCarbonMt: req.body.totalMt,
+      carbonSecLbs: req.body.carbonSecLbs,
+      carbonSecMt: req.body.carbonSecMt,
+      carbonMsLbs: req.body.carbonMsLbs,
+      carbonMsMt: req.body.carbonMsMt,
+      user_id: req.body.id
+    }).then(() => {
+      res.status(204);
+    }).catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+  });
+
+  router.put('/carbon/:id', (req, res) => {
+    //update users carbon info
   });
 
 

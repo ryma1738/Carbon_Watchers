@@ -11,37 +11,37 @@ userCarbon.init({
         autoIncrement: true,
         allowNull: false
     },
-    make: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    model: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    year: {
+    totalCarbonLbs: {
         type: DataTypes.INTEGER,
-        allowNull: true
-    },
-    mpYear: {
-        type: DataTypes.INTEGER,
-        allowNull: true
-    },
-    state: {
-        type: DataTypes.STRING,
         allowNull: false
     },
-    totalCarbon: {
+    totalCarbonMt: {
         type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    carbonSecLbs: {
+        type: DataTypes.DECIMAL(26,25),
+        allowNull: false
+    },
+    carbonSecMt: {
+        type: DataTypes.DECIMAL(26,26),
+        allowNull: false
+    },
+    carbonMsLbs: {
+        type: DataTypes.DECIMAL(26,26),
+        allowNull: false
+    },
+    carbonMsMt: {
+        type: DataTypes.DECIMAL(26,26),
         allowNull: false
     },
     user_id: {
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
             model: 'user',
             key: 'id'
         }
-    
     },
 },
     {

@@ -13,14 +13,15 @@ let currentUserEmissionsMt = 0;
 let currentEmissionsTimer = null;
 
 let useUserCarbon = false; //These values are need to make the users Current emissions work
-let userCPerSecLbs = 0;
-let userCPerMsLbs = 0;
-let userCPerSecMt = 0;
-let userCPerMsMt = 0;
+let userCPerSecLbs = 0.0;
+let userCPerMsLbs = 0.0;
+let userCPerSecMt = 0.0;
+let userCPerMsMt = 0.0;
 let userTotalCarbonHome = [];
 let userTotalCarbonVehicle = [];
 let userTotalCarbonCurrent = {};
 let doneWithAccountForm = 0;
+let currentUser = null;
 
 // let newsKey = '826c8d002dc24d088e02c40677ecd5e5'
 
@@ -31,7 +32,6 @@ function navCLicked(event) {
   switch (targetId){
     case "title":
       displayNoneAll();
-      initializeGlobalEmissions();
       $("#global-carbon-emissions-page").removeClass("d-none");
       break;
     case "travel-estimates":
@@ -70,7 +70,16 @@ function displayNoneAll() {
   $('#login-form').addClass('d-none');
   $('#signup-form').addClass('d-none');
   $('#account-page').addClass('d-none');
-clearInterval(currentEmissionsTimer);
+}
+
+function navLoggedIn(newUser) {
+  $('#login').addClass('d-none');
+  $('#signup').addClass('d-none');
+  $('#account').removeClass('d-none');
+  $('#logout').removeClass('d-none');
+  if (!newUser) {
+    currentUserUpdate();
+  }
 }
 
 function initializeGlobalEmissions() {
@@ -122,11 +131,9 @@ function globalEmissions() {
 }
 
 function loginFormHandler() {
-  console.log('started')
   const email = document.querySelector('#email-login').value.trim();
   const password = document.querySelector('#password-login').value.trim();
   if (email && password) {
-    console.log(email, password)
     fetch('/api/users/login', {
       method: "post",
       headers: {
@@ -137,14 +144,17 @@ function loginFormHandler() {
         password: password
       }),
     }).then((response) => response.json()).then((data) => {
-      console.log(data)
+      if (data.message) {
+        alert(data.message);
+        return;
+      }
+      currentUser = data.id;
+      navLoggedIn(false);
     }) 
   }
 }
 
  function signupFormHandler(event) {
- 
-
   const username = document.querySelector('#username-signup').value.trim();
   const email = document.querySelector('#email-signup').value.trim();
   const password = document.querySelector('#password-signup').value.trim();
@@ -156,17 +166,19 @@ function loginFormHandler() {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
+        username: username,
         email: email,
         password: password
       }),
     }).then((response) => response.json()).then((data) => {
-      console.log(data)
-    }) 
+      currentUser = data.id;
+      navLoggedIn(true);
+    });
   }
   
 }
 
-function logout(event) {
+function logout() {
   $.ajax('/api/users/logout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -351,19 +363,62 @@ async function checkAccountForm() {
     totalCarbonVehicleCurrent = await totalCarbonVehicleCurrent.json().then((data) => data);
     totalCarbonHomeCurrent = await totalCarbonHomeCurrent.json().then((data) => data);
 
-    currentUserEmissionsLbs = totalCarbonHome.lbs + totalCarbonVehicle.lbs;
-    currentUserEmissionsMt = totalCarbonHome.mt + totalCarbonVehicle.mt;
+    currentUserEmissionsLbs = Math.round(totalCarbonHome.lbs + totalCarbonVehicle.lbs);
+    currentUserEmissionsMt = Math.round(totalCarbonHome.mt + totalCarbonVehicle.mt);
     userCPerSecLbs = (totalCarbonVehicleCurrent.carbon_lb + totalCarbonHomeCurrent.lbs) / 365 / 24 / 60 / 60;
     userCPerSecMt = (totalCarbonVehicleCurrent.carbon_mt + totalCarbonHomeCurrent.mt) / 365 / 24 / 60 / 60;
     userCPerMsLbs = (totalCarbonVehicleCurrent.carbon_lb + totalCarbonHomeCurrent.lbs) / 365 / 24 / 60 / 60 / 100;
     userCPerMsMt = (totalCarbonVehicleCurrent.carbon_mt + totalCarbonHomeCurrent.mt) / 365 / 24 / 60 / 60 / 100;
-    useUserCarbon = true;
+    await fetch('/api/users/carbon', {
+      method: 'post',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({
+        totalLbs: currentUserEmissionsLbs,
+        totalMt: currentUserEmissionsMt,
+        carbonSecLbs: userCPerSecLbs,
+        carbonSecMt: userCPerSecMt,
+        carbonMsLbs: userCPerMsLbs,
+        carbonMsMt: userCPerMsMt,
+        id: currentUser
+      })
+    });
     $('#user-unit-lbs').removeClass('d-none');
     $('#user-unit-mt').removeClass('d-none');
+    clearInterval(currentEmissionsTimer);
+    useUserCarbon = true;
     initializeGlobalEmissions();
   }
 }
 
+async function currentUserUpdate() {
+  await $.ajax({
+    url: '/api/users/carbon?id=' + currentUser,
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    success: (data) => {
+      if (data.message) {
+        return;
+      }
+      $('#accountFormComplete').removeClass('d-none');
+      $('#accountForm').addClass('d-none');
+      currentUserEmissionsLbs = data.totalCarbonLbs;
+      currentUserEmissionsMt = data.totalCarbonMt;
+      userCPerMsLbs = data.carbonMsLbs;
+      userCPerMsMt = data.carbonMsMt;
+      userCPerSecLbs = data.carbonSecLbs;
+      userCPerSecMt = data.carbonSecMt;
+      $('#user-unit-lbs').removeClass('d-none');
+      $('#user-unit-mt').removeClass('d-none');
+      clearInterval(currentEmissionsTimer);
+      useUserCarbon = true;
+      initializeGlobalEmissions();
+    },
+    error: (err) => {
+      console.log(err);
+      alert('An Internal Server ERROR has occurred!');
+    }
+  });
+}
 
 //Event Handlers
  

@@ -1,9 +1,10 @@
 const axios = require('axios');
+require('dotenv').config();
 
 async function getVehicleMake(make) {
     const { data } = await axios.get('https://www.carboninterface.com/api/v1/vehicle_makes', {
         headers: {
-            'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
+            'Authorization': process.env.API_KEY,
             'content-type': 'application/json'
           }
     });
@@ -26,7 +27,7 @@ async function getVehicleMake(make) {
   async function getVehicleModel(makeId, model, year) {
     const {data} = await axios.get('https://www.carboninterface.com/api/v1/vehicle_makes/' + makeId + "/vehicle_models", {
       headers: {
-        'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
+        'Authorization': process.env.API_KEY,
         'content-type': 'application/json'
       }
     });
@@ -51,7 +52,7 @@ async function getVehicleMake(make) {
             url: "https://www.carboninterface.com/api/v1/estimates",
             method: 'post',
             headers: {
-                'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
+                'Authorization': process.env.API_KEY,
                 'content-type': 'application/json'
             },
             data: {

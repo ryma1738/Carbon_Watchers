@@ -1,4 +1,5 @@
 const axios = require('axios');
+require('dotenv').config();
 
 async function shippingEstimateRequest(weight, distance, distanceUnit, weightUnit, method) {
     try {
@@ -6,7 +7,7 @@ async function shippingEstimateRequest(weight, distance, distanceUnit, weightUni
             url: "https://www.carboninterface.com/api/v1/estimates",
             method: "post",
             headers: {
-            'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
+            'Authorization': process.env.API_KEY,
             'content-type': 'application/json'
             },
             data: {

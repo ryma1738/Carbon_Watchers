@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { readFileSync, copyFileSync } = require('fs');
 const path = require('path');
+require('dotenv').config();
 
 async function electricityEstimateRequest(itemArray) {
     //Source for JSON File: https://www.chooseenergy.com/news/article/the-states-that-use-the-most-and-least-amount-of-energy-per-household/
@@ -33,7 +34,7 @@ async function electricityCall(kwh, state) {
             url: "https://www.carboninterface.com/api/v1/estimates",
             method: "post",
             headers: {
-            'Authorization': 'Bearer HZOkJvglLARzHsXWm755Q',
+            'Authorization': process.env.API_KEY,
             'content-type': 'application/json'
             },
             data: {
